@@ -2,18 +2,18 @@ package sensors
 
 import "fmt"
 
-type PresenceDetectorType uint8
+type PresenceSensorType uint8
 
 const (
-	HC_SR04 PresenceDetectorType = iota
+	HC_SR04 PresenceSensorType = iota
 	UNKNOWN
 )
 
-func GetType(str string) (PresenceDetectorType, error) {
+func GetType(str string) (PresenceSensorType, error) {
 	var initError error
 	switch str {
 	case "HC_SR04":
-		return HC_SR04, initError
+		return nil, initError
 	default:
 		initError = fmt.Errorf("Presence Senor not supported (%v)", str)
 		return UNKNOWN, initError

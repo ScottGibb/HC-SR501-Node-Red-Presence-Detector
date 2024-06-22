@@ -6,13 +6,23 @@ const (
 	ConnectivityPortNumber = "CONNECTIVITY_PORT_NUMBER"
 )
 
+// Presence Settings
 const (
-	SensorAction    = "SENSOR_ACTION"
-	SensorFrequency = "SENSOR_FREQUENCY"
+	SensorFrequency = "SENSOR_NAME"
+	SensorType      = "SENSOR_TYPE"
 )
 
+// HC-SR04 Settings
 const (
-	SensorType          = "SENSOR_TYPE"
-	SensorPin           = "SENSOR_PIN"
-	SensorRefreshPeriod = "SENSOR_REFRESH_PERIOD"
+	SensorPin = "SENSOR_PIN"
+)
+
+// Sensing Algorithm Settings
+const (
+	SensingMode = "SENSING_MODE"
+)
+
+// Periodic Sensing Settings
+const (
+	SensingUpdateFrequency = "SENSING_UPDATE_FREQUENCY_HZ"
 )
