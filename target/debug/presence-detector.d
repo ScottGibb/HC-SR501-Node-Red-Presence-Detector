@@ -1,0 +1,1 @@
+/mnt/c/Users/kylel/OneDrive/Documents/Projects/HC-SR501-Node-Red-Presence-Detector/target/debug/presence-detector: /mnt/c/Users/kylel/OneDrive/Documents/Projects/HC-SR501-Node-Red-Presence-Detector/src/main.rs
