@@ -10,7 +10,7 @@ services:
       - mosquitto_data:/mosquitto/data
       - mosquitto_log:/mosquitto/log
     restart: unless-stopped
-    
+
   portainer:
     image: portainer/portainer-ce:latest
     container_name: portainer
@@ -19,18 +19,19 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - portainer_data:/data
-  
+    restart: unless-stopped
+    
   node-red:
     image: nodered/node-red:latest
     container_name: node-red
-    ports:
-      - "1880:1880"
     volumes:
       - node_red_data:/data
     restart: unless-stopped
-    
+    network_mode: host
+
 volumes:
   portainer_data:
   mosquitto_data:
   mosquitto_log:
+  node_red_data:
 
