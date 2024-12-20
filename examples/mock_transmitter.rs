@@ -8,6 +8,7 @@ use std::process;
 /// when the user presses Enter. The message is a JSON object with a boolean `presence` field set to
 /// `true` and a `timestamp` field set to the current time in UTC.
 fn main() {
+    let topic = "presence/room/1";
     // Create a client & define connect options
     let create_opts = mqtt::CreateOptionsBuilder::new()
         .server_uri("tcp://localhost:1883")
@@ -50,7 +51,7 @@ fn main() {
                 "timestamp": Utc::now().to_string(),
             });
 
-            let msg = mqtt::Message::new("presence/room/1", message.to_string(), mqtt::QOS_1);
+            let msg = mqtt::Message::new(topic, message.to_string(), mqtt::QOS_1);
 
             // Attempt to publish the message
             if let Err(e) = client.publish(msg) {
@@ -61,7 +62,7 @@ fn main() {
                     break; // If we cannot reconnect, exit the loop
                 }
             } else {
-                println!("Message sent: {}", message);
+                println!("Message sent on topic: [{}]: {}", topic, message);
             }
         }
     }
