@@ -3,7 +3,7 @@ use paho_mqtt as mqtt;
 fn main() {
     let host_address = "localhost";
     let port = 1883;
-    let topic = "presence/room";
+    let topic = "presence/room/1";
 
     let create_opts = mqtt::CreateOptionsBuilder::new()
         .server_uri(format!("tcp://{}:{}", host_address, port))

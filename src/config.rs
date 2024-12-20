@@ -13,6 +13,8 @@ pub struct Config {
     pub mqtt: MqttConfig,
     pub pin: u8,
 }
+
+#[cfg(not(feature = "dev"))]
 pub fn get_config_from_env() -> Config {
     let mqtt_host = env::var("MQTT_HOST").expect("MQTT_HOST environment variable not set");
     let mqtt_port = env::var("MQTT_PORT").expect("MQTT_PORT environment variable not set");
@@ -30,5 +32,17 @@ pub fn get_config_from_env() -> Config {
             topic: mqtt_topic,
         },
         pin: pin.parse().unwrap(),
+    }
+}
+#[cfg(feature = "dev")]
+pub fn default() -> Config {
+    Config {
+        mqtt: MqttConfig {
+            host: "localhost".to_string(),
+            port: 1883,
+            client_id: "receiver".to_string(),
+            topic: "presence/room/1".to_string(),
+        },
+        pin: 4,
     }
 }

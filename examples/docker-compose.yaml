@@ -1,17 +1,16 @@
-version: '3.8'
-
 services:
-  mqtt:
+  mqtt-broker:
     image: eclipse-mosquitto:latest
-    container_name: mqtt
+    container_name: mqtt-broker
     ports:
-      - "1883:1883"
-      - "9001:9001"
+      - "1883:1883"  # MQTT port
+      - "9002:9001"  # MQTT over WebSockets (optional, for MQTT over WebSocket support)
     volumes:
-      - ./mosquitto/config:/mosquitto/config
-      - ./mosquitto/data:/mosquitto/data
-      - ./mosquitto/log:/mosquitto/log
-
+      - ./config:/mosquitto/config
+      - mosquitto_data:/mosquitto/data
+      - mosquitto_log:/mosquitto/log
+    restart: unless-stopped
+    
   portainer:
     image: portainer/portainer-ce:latest
     container_name: portainer
@@ -23,3 +22,5 @@ services:
 
 volumes:
   portainer_data:
+  mosquitto_data:
+  mosquitto_log:
