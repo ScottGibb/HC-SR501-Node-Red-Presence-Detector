@@ -22,19 +22,20 @@ pub fn get_pin(pin: u8) -> Result<ftdi_embedded_hal::InputPin<Device>, Box<dyn E
     const BAUDRATE: u32 = 115200;
     const DEVICE_VID: u16 = 0x0403;
     const DEVICE_PID: u16 = 0x6014;
-
+    println!("Initializing FTDI device...");
     let device = ftdi::find_by_vid_pid(DEVICE_VID, DEVICE_PID)
         .interface(ftdi::Interface::A)
         .open()?;
-
+    println!("FTDI device initialized");
     let hal = match ftdi_embedded_hal::FtHal::init_freq(device, BAUDRATE) {
         Ok(hal) => hal,
         Err(e) => return Err(Box::new(e)),
     };
-
+    println!("FTDI HAL initialized");
     let pin = match hal.ci0() {
         Ok(pin) => pin,
         Err(e) => return Err(Box::new(e)),
     };
+    println!("Pin initialized");
     Ok(pin)
 }

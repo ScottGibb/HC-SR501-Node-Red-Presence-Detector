@@ -1,5 +1,9 @@
 use paho_mqtt as mqtt;
+use serde_json::Value;
 
+/// This example demonstrates a mock receiver that listens for presence messages on an MQTT broker.
+/// The messages are expected to be JSON objects with a boolean `presence` field and a `timestamp`
+/// field. The receiver will print the received JSON object to the console.
 fn main() {
     let host_address = "localhost";
     let port = 1883;
@@ -27,7 +31,11 @@ fn main() {
 
     for msg in client.start_consuming() {
         if let Some(msg) = msg {
-            println!("Received: {:?}", msg);
+            let payload_str = msg.payload_str();
+            match serde_json::from_str::<Value>(&payload_str) {
+                Ok(json) => println!("Received JSON: {:?}", json),
+                Err(e) => println!("Error parsing JSON: {:?}", e),
+            }
         }
     }
 }

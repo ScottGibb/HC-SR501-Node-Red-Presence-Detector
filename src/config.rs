@@ -1,5 +1,3 @@
-use std::env;
-
 #[derive(Debug)]
 pub struct MqttConfig {
     pub host: String,
@@ -16,6 +14,7 @@ pub struct Config {
 
 #[cfg(not(feature = "dev"))]
 pub fn get_config_from_env() -> Config {
+    use std::env;
     let mqtt_host = env::var("MQTT_HOST").expect("MQTT_HOST environment variable not set");
     let mqtt_port = env::var("MQTT_PORT").expect("MQTT_PORT environment variable not set");
     let mqtt_client_id =

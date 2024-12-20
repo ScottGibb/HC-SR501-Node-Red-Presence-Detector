@@ -41,6 +41,7 @@ fn main() {
                 "presence": true,
                 "timestamp": chrono::Utc::now().to_string(),
             });
+            println!("Sending message: {}", message.to_string());
             mqtt.send_message(message.to_string()).unwrap();
         }
     }

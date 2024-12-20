@@ -1,0 +1,8 @@
+.github
+.vscode
+docs
+examples
+.gitignore
+*.md
+*.json
+*.yaml
