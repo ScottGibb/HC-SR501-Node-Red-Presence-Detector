@@ -29,6 +29,20 @@ services:
     restart: unless-stopped
     network_mode: host
 
+  presence-detector:
+    build: ../../
+    container_name: presence-detector
+    restart: unless-stopped
+    network_mode: host
+    environment:
+      - MQTT_HOST=127.0.0.1
+      - MQTT_PORT=1883
+      - MQTT_CLIENT_ID=presence-detector
+      - ROOM_NAME=Living Room
+      - PIN=1
+
+      
+
 volumes:
   portainer_data:
   mosquitto_data:
