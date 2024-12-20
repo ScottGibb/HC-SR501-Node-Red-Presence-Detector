@@ -1,6 +1,4 @@
-use chrono;
 use embedded_hal::digital::InputPin;
-use serde_json as json;
 mod config;
 mod pins;
 mod transmit;
@@ -37,11 +35,11 @@ fn main() {
     loop {
         if pin.is_high().unwrap() {
             println!("Presence Detected");
-            let message = json::json!({
+            let message = serde_json::json!({
                 "presence": true,
                 "timestamp": chrono::Utc::now().to_string(),
             });
-            println!("Sending message: {}", message.to_string());
+            println!("Sending message: {}", message);
             mqtt.send_message(message.to_string()).unwrap();
         }
     }

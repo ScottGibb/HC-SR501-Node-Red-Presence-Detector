@@ -18,7 +18,7 @@ pub fn get_pin(pin: u8) -> Result<rppal::gpio::InputPin, Box<dyn Error>> {
     Ok(pin)
 }
 #[cfg(feature = "dev")]
-pub fn get_pin(pin: u8) -> Result<ftdi_embedded_hal::InputPin<Device>, Box<dyn Error>> {
+pub fn get_pin(_pin: u8) -> Result<ftdi_embedded_hal::InputPin<Device>, Box<dyn Error>> {
     const BAUDRATE: u32 = 115200;
     const DEVICE_VID: u16 = 0x0403;
     const DEVICE_PID: u16 = 0x6014;
