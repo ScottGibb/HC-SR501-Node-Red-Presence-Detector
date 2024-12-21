@@ -6,10 +6,7 @@ mod transmit;
 
 fn main() {
     println!("Initializing...");
-    #[cfg(feature = "prod")]
-    let config = config::get_config_from_env();
-    #[cfg(feature = "dev")]
-    let config = config::default();
+    let config = config::get_config();
     println!("Config: {:?}", config);
     let mut pin = match pins::get_pin(config.pin) {
         Ok(pin) => pin,
