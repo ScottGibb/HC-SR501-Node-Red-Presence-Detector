@@ -18,3 +18,4 @@ debug/
 
 # Ignore draw.io backup files
 *.bkp
+*.dtmp
