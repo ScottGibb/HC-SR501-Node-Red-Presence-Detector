@@ -16,12 +16,21 @@ jobs:
       - name: Install Rust
         run: |
           curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+          apt-get install libftdi1 libftdi1-dev -y
       - name: Cargo Build
-        run: cargo build
+        run: |
+          source "$HOME"/.cargo/env
+          cargo build
       - name: Cargo Build Dev
-        run: cargo build --no-default-features --features=dev
+        run: |
+          source "$HOME"/.cargo/env
+          cargo build --no-default-features --features=dev
       - name: Cargo Build Default
-        run: cargo build --features default
-      - name: Cargo build Prod
-        run: cargo build --features prod
+        run: |
+          source "$HOME"/.cargo/env
+          cargo build --features default
+      - name: Cargo Build Prod
+        run: |
+          source "$HOME"/.cargo/env
+          cargo build --features prod
 
