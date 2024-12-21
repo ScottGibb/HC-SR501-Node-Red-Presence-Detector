@@ -14,7 +14,7 @@ chrono = "0.4.39"
 
 
 [features]
-default = ["prod"]
+default = ["dev"]
 dev = ["ftdi", "ftdi-embedded-hal"]
 prod = ["rppal"]
 

@@ -9,7 +9,7 @@ pub struct MqttConfig {
 #[derive(Debug)]
 pub struct Config {
     pub mqtt: MqttConfig,
-    pub pin: u8,
+    pub pin: String,
     pub sensor_id: String,
 }
 
@@ -31,7 +31,7 @@ pub fn get_config_from_env() -> Config {
             client_id: mqtt_client_id,
             topic: mqtt_topic,
         },
-        pin: pin.parse().unwrap(),
+        pin: pin,
         sensor_id,
     }
 }
@@ -44,7 +44,7 @@ pub fn default() -> Config {
             client_id: "receiver".to_string(),
             topic: "presence/room/1".to_string(),
         },
-        pin: 4,
+        pin: "4".to_string(),
         sensor_id: "1".to_string(),
     }
 }
