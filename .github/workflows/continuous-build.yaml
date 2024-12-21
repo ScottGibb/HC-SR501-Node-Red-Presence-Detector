@@ -1,0 +1,36 @@
+---
+name: Continuous Build
+on:
+  pull_request:
+    branches:
+      - main
+  workflow_call:
+
+jobs:
+  Build:
+    name: Different Build Confgurations
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install Rust
+        run: |
+          curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+          sudo apt-get install libftdi1 libftdi1-dev -y
+      - name: Cargo Build
+        run: |
+          source "$HOME"/.cargo/env
+          cargo build
+      - name: Cargo Build Dev
+        run: |
+          source "$HOME"/.cargo/env
+          cargo build --no-default-features --features=dev
+      - name: Cargo Build Default
+        run: |
+          source "$HOME"/.cargo/env
+          cargo build --features default
+      - name: Cargo Build Prod
+        run: |
+          source "$HOME"/.cargo/env
+          cargo build --features prod
+

@@ -1,6 +1,7 @@
 # HC-SR501 Node Red Presence Detector
 
-[![Static Analysis](https://github.com/ScottGibb/HC-SR501-Node-Red-Presence-Detector/actions/workflows/Static%20Analysis.yml/badge.svg)](https://github.com/ScottGibb/HC-SR501-Node-Red-Presence-Detector/actions/workflows/Static%20Analysis.yml)
+[![MegaLinter](https://github.com/ScottGibb/HC-SR501-Node-Red-Presence-Detector/actions/workflows/megalinter.yaml/badge.svg)](https://github.com/ScottGibb/HC-SR501-Node-Red-Presence-Detector/actions/workflows/megalinter.yaml)
+[![Continuous Build](https://github.com/ScottGibb/HC-SR501-Node-Red-Presence-Detector/actions/workflows/continuous-build.yaml/badge.svg)](https://github.com/ScottGibb/HC-SR501-Node-Red-Presence-Detector/actions/workflows/continuous-build.yaml)
 
 ## Summary
 
