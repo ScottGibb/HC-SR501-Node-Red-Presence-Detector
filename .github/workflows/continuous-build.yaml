@@ -16,7 +16,6 @@ jobs:
       - name: Install Rust
         run: |
           curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-          apt-get install build-essential
       - name: Cargo Build
         run: cargo build
       - name: Cargo Build Dev
