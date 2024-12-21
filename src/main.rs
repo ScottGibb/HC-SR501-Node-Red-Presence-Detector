@@ -11,7 +11,7 @@ fn main() {
     #[cfg(feature = "dev")]
     let config = config::default();
     println!("Config: {:?}", config);
-    let pin = match pins::get_pin(config.pin) {
+    let mut pin = match pins::get_pin(config.pin) {
         Ok(pin) => pin,
         Err(e) => {
             eprintln!("Error: {}", e);
@@ -34,6 +34,18 @@ fn main() {
     };
     println!("Connected to MQTT broker");
     loop {
+        #[cfg(feature = "dev")]
+        if pin.is_high().unwrap() {
+            println!("Presence Detected");
+            let message = serde_json::json!({
+                "presence": true,
+                "timestamp": chrono::Utc::now().to_string(),
+                "sensor_id": config.sensor_id,
+            });
+            println!("Sending message: {}", message);
+            mqtt.send_message(message.to_string()).unwrap();
+        }
+        #[cfg(not(feature = "dev"))]
         if pin.is_high() {
             println!("Presence Detected");
             let message = serde_json::json!({
