@@ -8,11 +8,15 @@ use std::process;
 /// when the user presses Enter. The message is a JSON object with a boolean `presence` field set to
 /// `true` and a `timestamp` field set to the current time in UTC.
 fn main() {
-    let topic = "presence/room/1";
-    // Create a client & define connect options
+    // let host_address = "localhost";
+    let host_address: &str = "192.168.0.69"; //PiLab
+    let port = 1883;
+    let sensor_id = "1";
+    let topic = format!("presence/master-bedroom/");
+
     let create_opts = mqtt::CreateOptionsBuilder::new()
-        .server_uri("tcp://localhost:1883")
-        .client_id("mock_transmitter")
+        .server_uri(format!("tcp://{}:{}", host_address, port))
+        .client_id(format!("transmitter-{}", sensor_id))
         .finalize();
 
     let client = mqtt::Client::new(create_opts).unwrap_or_else(|err| {
@@ -48,10 +52,11 @@ fn main() {
         if buffer.trim().is_empty() {
             let message = json!({
                 "presence": true,
+                "sensor_id": sensor_id,
                 "timestamp": Utc::now().to_string(),
             });
 
-            let msg = mqtt::Message::new(topic, message.to_string(), mqtt::QOS_1);
+            let msg = mqtt::Message::new(topic.clone(), message.to_string(), mqtt::QOS_1);
 
             // Attempt to publish the message
             if let Err(e) = client.publish(msg) {

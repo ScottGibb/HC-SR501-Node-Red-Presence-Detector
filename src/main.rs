@@ -39,6 +39,7 @@ fn main() {
             let message = serde_json::json!({
                 "presence": true,
                 "timestamp": chrono::Utc::now().to_string(),
+                "sensor_id": config.sensor_id,
             });
             println!("Sending message: {}", message);
             mqtt.send_message(message.to_string()).unwrap();

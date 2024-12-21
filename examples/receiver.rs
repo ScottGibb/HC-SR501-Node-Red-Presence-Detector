@@ -5,9 +5,10 @@ use serde_json::Value;
 /// The messages are expected to be JSON objects with a boolean `presence` field and a `timestamp`
 /// field. The receiver will print the received JSON object to the console.
 fn main() {
-    let host_address = "localhost";
+    // let host_address = "localhost";
+    let host_address: &str = "192.168.0.69"; //PiLab
     let port = 1883;
-    let topic = "presence/room/1";
+    let topic = "presence/master-bedroom/";
 
     let create_opts = mqtt::CreateOptionsBuilder::new()
         .server_uri(format!("tcp://{}:{}", host_address, port))

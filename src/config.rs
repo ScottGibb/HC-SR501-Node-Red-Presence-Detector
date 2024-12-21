@@ -10,6 +10,7 @@ pub struct MqttConfig {
 pub struct Config {
     pub mqtt: MqttConfig,
     pub pin: u8,
+    pub sensor_id: String,
 }
 
 #[cfg(not(feature = "dev"))]
@@ -22,7 +23,7 @@ pub fn get_config_from_env() -> Config {
     let pin = env::var("PIN").expect("PIN environment variable not set");
     let room = env::var("ROOM").expect("ROOM environment variable not set");
     let sensor_id = env::var("SENSOR_ID").expect("SENSOR_ID environment variable not set");
-    let mqtt_topic = format!("presence/{}/{}", room, sensor_id);
+    let mqtt_topic = format!("presence/{}/", room);
     Config {
         mqtt: MqttConfig {
             host: mqtt_host,
@@ -31,6 +32,7 @@ pub fn get_config_from_env() -> Config {
             topic: mqtt_topic,
         },
         pin: pin.parse().unwrap(),
+        sensor_id,
     }
 }
 #[cfg(feature = "dev")]
@@ -43,5 +45,6 @@ pub fn default() -> Config {
             topic: "presence/room/1".to_string(),
         },
         pin: 4,
+        sensor_id: "1".to_string(),
     }
 }
