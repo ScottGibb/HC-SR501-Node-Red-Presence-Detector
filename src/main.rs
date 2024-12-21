@@ -6,7 +6,7 @@ mod transmit;
 
 fn main() {
     println!("Initializing...");
-    #[cfg(not(feature = "dev"))]
+    #[cfg(feature = "prod")]
     let config = config::get_config_from_env();
     #[cfg(feature = "dev")]
     let config = config::default();
@@ -45,7 +45,7 @@ fn main() {
             println!("Sending message: {}", message);
             mqtt.send_message(message.to_string()).unwrap();
         }
-        #[cfg(not(feature = "dev"))]
+        #[cfg(feature = "prod")]
         if pin.is_high() {
             println!("Presence Detected");
             let message = serde_json::json!({
