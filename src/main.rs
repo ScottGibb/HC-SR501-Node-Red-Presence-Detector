@@ -6,7 +6,7 @@ mod transmit;
 fn main() {
     println!("Initializing...");
     #[cfg(not(feature = "dev"))]
-    let config = Config::get_config_from_env();
+    let config = config::get_config_from_env();
     #[cfg(feature = "dev")]
     let config = config::default();
     println!("Config: {:?}", config);
@@ -33,7 +33,7 @@ fn main() {
     };
     println!("Connected to MQTT broker");
     loop {
-        if pin.is_high().unwrap() {
+        if pin.is_high() {
             println!("Presence Detected");
             let message = serde_json::json!({
                 "presence": true,
