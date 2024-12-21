@@ -1,3 +1,4 @@
+#[cfg(feature = "dev")]
 use embedded_hal::digital::InputPin;
 mod config;
 mod pins;
@@ -10,7 +11,7 @@ fn main() {
     #[cfg(feature = "dev")]
     let config = config::default();
     println!("Config: {:?}", config);
-    let mut pin = match pins::get_pin(config.pin) {
+    let pin = match pins::get_pin(config.pin) {
         Ok(pin) => pin,
         Err(e) => {
             eprintln!("Error: {}", e);
