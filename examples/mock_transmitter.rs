@@ -11,7 +11,7 @@ fn main() {
     let host_address = "localhost";
     // let host_address: &str = "192.168.0.69"; //PiLab
     let port = 1883;
-    let sensor_id = "1";
+    let sensor_id = "2";
     let topic = format!("presence/master-bedroom/");
 
     let create_opts = mqtt::CreateOptionsBuilder::new()
