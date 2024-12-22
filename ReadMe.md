@@ -56,6 +56,38 @@ This will used the dev-config found [here](./src/config.rs). You may also need t
 apt install libftdi1 libftdi1-dev
 ```
 
+## Developer Flow
+
+![Developer Flow](./docs//Developer%20Flow.drawio.svg)
+
+I started developing this on my Windows Machine using WSL2 and then slowly started pushing towards Raspberry Pi. Interestingly enough I found i had to share my FTD232H Device with WSL2 using the following commands:
+
+```bash
+ubbpid list 
+PS C:\WINDOWS\system32> usbipd list
+Connected:
+BUSID  VID:PID    DEVICE                                                        STATE
+2-5    1bcf:2a02  Integrated Webcam                                             Not shared
+2-6    0403:6014  USB Serial Converter                                          Attached
+2-14   8087:0026  Intel(R) Wireless Bluetooth(R)                                Not shared
+
+Persisted:
+GUID                                  DEVICE
+
+# Share with WSL2
+usbipd bind --busid 2-6
+usbipd attach --wsl --busid 2-6
+```
+
+Which then in Linux(WSL2) looks like so:
+
+```bash
+root@scott-Dev:/mnt/c/Users/scott-dev/OneDrive/Documents/Projects/HC-SR501-Node-Red-Presence-Detector# lsusb
+Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+Bus 001 Device 002: ID 0403:6014 Future Technology Devices International, Ltd FT232H Single HS USB-UART/FIFO IC
+Bus 002 Device 001: ID 1d6b:0003 Linux Foundation 3.0 root hub
+```
+
 ## Extra Examples
 
 When developing this code I wrote some simple MQTT code which could send and receive from the broker. It can be ran like the following:
@@ -69,3 +101,4 @@ cargo run --example receiver
 
 - [HC-SR501](https://dronebotworkshop.com/using-pir-sensors-with-arduino-raspberry-pi/)
 - [Node-Red](https://cookbook.nodered.org/mqtt/connect-to-broker)
+- [WSL2 Sharing USB Devices](https://learn.microsoft.com/en-us/windows/wsl/connect-usb)
