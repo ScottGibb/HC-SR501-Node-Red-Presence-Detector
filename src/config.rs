@@ -13,7 +13,7 @@ pub struct Config {
     pub sensor_id: String,
 }
 
-#[cfg(not(feature = "default-config"))]
+#[cfg(not(feature = "dev-config"))]
 pub fn get_config() -> Config {
     use std::env;
     let mqtt_host = env::var("MQTT_HOST").expect("MQTT_HOST environment variable not set");
@@ -33,7 +33,7 @@ pub fn get_config() -> Config {
         sensor_id,
     }
 }
-#[cfg(feature = "default-config")]
+#[cfg(feature = "dev-config")]
 pub fn get_config() -> Config {
     let sensor_id = "1".to_string();
     Config {

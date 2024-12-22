@@ -1,9 +1,11 @@
 #[cfg(feature = "dev")]
 use embedded_hal::digital::InputPin;
+
 mod config;
 mod pins;
 mod transmit;
 
+const POLL_INTERVAL: u64 = 5; // seconds
 fn main() {
     println!("Initializing...");
     let config = config::get_config();
@@ -30,28 +32,32 @@ fn main() {
         }
     };
     println!("Connected to MQTT broker");
+    let mut has_pin_changed = false;
+    let mut last_pin_state = false;
+    println!("Starting loop");
     loop {
-        #[cfg(feature = "dev")]
-        if pin.is_high().unwrap() {
-            println!("Presence Detected");
-            let message = serde_json::json!({
-                "presence": true,
-                "timestamp": chrono::Utc::now().to_string(),
-                "sensor_id": config.sensor_id,
-            });
-            println!("Sending message: {}", message);
-            mqtt.send_message(message.to_string()).unwrap();
-        }
-        #[cfg(feature = "prod")]
-        if pin.is_high() {
-            println!("Presence Detected");
-            let message = serde_json::json!({
-                "presence": true,
-                "timestamp": chrono::Utc::now().to_string(),
-                "sensor_id": config.sensor_id,
-            });
-            println!("Sending message: {}", message);
-            mqtt.send_message(message.to_string()).unwrap();
+        {
+            #[cfg(feature = "dev")]
+            let current_pin_state = pin.is_high().unwrap();
+            #[cfg(feature = "prod")]
+            let current_pin_state = pin.is_high();
+
+            if current_pin_state != last_pin_state {
+                has_pin_changed = true;
+                last_pin_state = current_pin_state;
+            }
+            if has_pin_changed {
+                println!("Presence Change Detected");
+                let message = serde_json::json!({
+                    "presence": current_pin_state,
+                    "timestamp": chrono::Utc::now().to_string(),
+                    "sensor_id": config.sensor_id,
+                });
+                println!("Sending message: {}", message);
+                mqtt.send_message(message.to_string()).unwrap();
+                has_pin_changed = false;
+            }
+            std::thread::sleep(std::time::Duration::from_secs(POLL_INTERVAL));
         }
     }
 }
