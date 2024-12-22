@@ -28,6 +28,8 @@ The Key parts are outlined below:
 On the NodeRed side the following flow is used:
 
 
+This flow will turn the lights in the master bedroom on and off dependent on the presence and the time of day.
+
 ## Getting Started
 
 Hardware wise, you must make sure the HC-SR501 is in Repeatable Trigger Mode and that the delay and sensitivity triggers are set accordingly.

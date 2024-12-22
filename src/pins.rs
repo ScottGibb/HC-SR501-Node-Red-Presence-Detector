@@ -39,7 +39,7 @@ pub fn get_pin(pin: String) -> Result<ftdi_embedded_hal::InputPin<Device>, Box<d
 
     // Get the pin from the port and pin number
     let pin = match port {
-        Some('A') => match pin {
+        Some('C') => match pin {
             Some('0') => hal.ci0(),
             Some('1') => hal.ci1(),
             Some('2') => hal.ci2(),
