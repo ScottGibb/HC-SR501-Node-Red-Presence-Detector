@@ -41,7 +41,7 @@ pub fn get_config() -> Config {
             host: "localhost".to_string(),
             port: 1883,
             client_id: format!("transmitter-{}", sensor_id),
-            topic: "presence/room/1".to_string(),
+            topic: "presence/master-bedroom/".to_string(),
         },
         // pin: "4".to_string(),  // BCM pin number
         pin: "C0".to_string(), // FTDI port and pin number

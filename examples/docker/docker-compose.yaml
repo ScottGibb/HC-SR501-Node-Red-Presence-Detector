@@ -38,7 +38,8 @@ services:
   #     - MQTT_HOST=127.0.0.1
   #     - MQTT_PORT=1883
   #     - MQTT_CLIENT_ID=presence-detector
-  #     - ROOM_NAME=Living Room
+  #     - ROOM=master-bedroom
+  #     - SENSOR_ID=1
   #     - PIN=1
 
       
