@@ -86,3 +86,6 @@ pub fn get_pin(pin: String) -> Result<ftdi_embedded_hal::InputPin<Device>, Box<d
     println!("Pin initialized");
     Ok(pin)
 }
+
+#[cfg(not(any(feature = "prod", feature = "dev")))]
+compile_error!("Either 'prod' or 'dev' feature must be enabled.");

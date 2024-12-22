@@ -11,36 +11,41 @@ services:
       - mosquitto_log:/mosquitto/log
     restart: unless-stopped
 
-  # portainer:
-  #   image: portainer/portainer-ce:latest
-  #   container_name: portainer
-  #   ports:
-  #     - "9000:9000"
-  #   volumes:
-  #     - /var/run/docker.sock:/var/run/docker.sock
-  #     - portainer_data:/data
-  #   restart: unless-stopped
+  portainer:
+    image: portainer/portainer-ce:latest
+    container_name: portainer
+    ports:
+      - "9000:9000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+    restart: unless-stopped
     
   node-red:
     image: nodered/node-red:latest
     container_name: node-red
+    ports:
+    - "1880:1880"  # Map Node-RED's default port to the host
     volumes:
       - node_red_data:/data
     restart: unless-stopped
-    network_mode: host
 
-  # presence-detector:
-  #   build: ../../
-  #   container_name: presence-detector
-  #   restart: unless-stopped
-  #   network_mode: host
-  #   environment:
-  #     - MQTT_HOST=127.0.0.1
-  #     - MQTT_PORT=1883
-  #     - MQTT_CLIENT_ID=presence-detector
-  #     - ROOM=master-bedroom
-  #     - SENSOR_ID=1
-  #     - PIN=1
+  presence-detector:
+    build: 
+      context: ../../
+      dockerfile: Dockerfile
+      target: dev
+    container_name: presence-detector
+    restart: unless-stopped
+    network_mode: host
+    privileged: true
+    environment:
+      - MQTT_HOST=127.0.0.1
+      - MQTT_PORT=1883
+      - MQTT_CLIENT_ID=presence-detector
+      - ROOM=master-bedroom
+      - SENSOR_ID=1
+      - PIN=1
 
       
 
