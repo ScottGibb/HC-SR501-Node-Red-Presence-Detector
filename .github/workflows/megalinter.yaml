@@ -64,7 +64,7 @@ jobs:
       - name: Install Rust System Dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y libftdi1 libftdi1-dev openssl libssl-dev
+          sudo apt-get install -y openssl libssl-dev
 
       # MegaLinter
       - name: MegaLinter
