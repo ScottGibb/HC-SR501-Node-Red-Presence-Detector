@@ -13,15 +13,20 @@ pub struct Config {
     pub sensor_id: String,
 }
 
+use log::info;
+
 #[cfg(not(feature = "dev-config"))]
 pub fn get_config() -> Config {
     use std::env;
+
+    info!("Reading configuration from environment variables");
     let mqtt_host = env::var("MQTT_HOST").expect("MQTT_HOST environment variable not set");
     let mqtt_port = env::var("MQTT_PORT").expect("MQTT_PORT environment variable not set");
     let pin = env::var("PIN").expect("PIN environment variable not set");
     let room = env::var("ROOM").expect("ROOM environment variable not set");
     let sensor_id = env::var("SENSOR_ID").expect("SENSOR_ID environment variable not set");
     let mqtt_topic = format!("presence/{}/", room);
+    info!("Configuration read successfully");
     Config {
         mqtt: MqttConfig {
             host: mqtt_host,
@@ -35,6 +40,7 @@ pub fn get_config() -> Config {
 }
 #[cfg(feature = "dev-config")]
 pub fn get_config() -> Config {
+    info!("Using development configuration");
     let sensor_id = "1".to_string();
     Config {
         mqtt: MqttConfig {

@@ -1,3 +1,4 @@
+use log::info;
 use std::error::Error;
 
 #[cfg(feature = "dev")]
@@ -14,8 +15,10 @@ use rppal;
 
 #[cfg(feature = "prod")]
 pub fn get_pin(pin: String) -> Result<rppal::gpio::InputPin, Box<dyn Error>> {
+    info!("Initializing Raspberry Pi pin...");
     let pin = pin.parse()?;
     let pin = rppal::gpio::Gpio::new()?.get(pin)?.into_input();
+    info!("Raspberry Pi pin initialized");
     Ok(pin)
 }
 #[cfg(feature = "dev")]
@@ -23,11 +26,11 @@ pub fn get_pin(pin: String) -> Result<ftdi_embedded_hal::InputPin<Device>, Box<d
     const BAUDRATE: u32 = 115200;
     const DEVICE_VID: u16 = 0x0403;
     const DEVICE_PID: u16 = 0x6014;
-    println!("Initializing FTDI device...");
+    info!("Initializing FTDI device...");
     let device = ftdi::find_by_vid_pid(DEVICE_VID, DEVICE_PID)
         .interface(ftdi::Interface::A)
         .open()?;
-    println!("FTDI device initialized");
+    info!("FTDI device initialized");
     let hal = match ftdi_embedded_hal::FtHal::init_freq(device, BAUDRATE) {
         Ok(hal) => hal,
         Err(e) => return Err(Box::new(e)),
@@ -37,6 +40,7 @@ pub fn get_pin(pin: String) -> Result<ftdi_embedded_hal::InputPin<Device>, Box<d
     let port = pin.chars().nth(0);
     let pin = pin.chars().nth(1);
 
+    info!("Initializing pin...");
     // Get the pin from the port and pin number
     let pin = match port {
         Some('C') => match pin {
@@ -67,23 +71,23 @@ pub fn get_pin(pin: String) -> Result<ftdi_embedded_hal::InputPin<Device>, Box<d
             _ => {
                 return Err(Box::new(std::io::Error::new(
                     std::io::ErrorKind::InvalidInput,
-                    "Invalid pin",
+                    "Invalid FTDI pin",
                 )))
             }
         },
         _ => {
             return Err(Box::new(std::io::Error::new(
                 std::io::ErrorKind::InvalidInput,
-                "Invalid port",
+                "Invalid FTDI port",
             )))
         }
     };
-    println!("FTDI HAL initialized");
+
+    info!("FTDI Pin initialized");
     let pin = match pin {
         Ok(pin) => pin,
         Err(e) => return Err(Box::new(e)),
     };
-    println!("Pin initialized");
     Ok(pin)
 }
 
