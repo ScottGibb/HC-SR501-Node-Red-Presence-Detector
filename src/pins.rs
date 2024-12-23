@@ -37,7 +37,7 @@ pub fn get_pin(pin: String) -> Result<ftdi_embedded_hal::InputPin<Device>, Box<d
     };
 
     // Parse the pin string to get the port and pin number
-    let port = pin.chars().nth(0);
+    let port = pin.chars().next();
     let pin = pin.chars().nth(1);
 
     info!("Initializing pin...");

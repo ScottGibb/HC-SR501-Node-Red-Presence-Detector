@@ -55,7 +55,6 @@ fn main() {
             if current_pin_state != last_pin_state {
                 has_pin_changed = true;
                 last_pin_state = current_pin_state;
-            } else {
             }
             if last_print_time.elapsed().as_secs() > PRINT_INTERVAL {
                 debug!("Current Pin State: {}", current_pin_state);
