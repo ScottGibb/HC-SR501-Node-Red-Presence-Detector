@@ -16,7 +16,7 @@ chrono = "0.4.39"
 [features]
 default = ["prod"] # Useful for Rust Analyzer
 prod = ["rppal"]
-dev = ["ftdi", "ftdi-embedded-hal","dev-config"]
+dev = ["ftdi", "ftdi-embedded-hal"]
 dev-config = []
 
 

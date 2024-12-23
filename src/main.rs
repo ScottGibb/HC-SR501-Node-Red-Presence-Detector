@@ -6,7 +6,9 @@ mod pins;
 mod transmit;
 
 const POLL_INTERVAL: u64 = 5; // seconds
+const PRINT_INTERVAL: u64 = 60 * 30; // seconds
 fn main() {
+    let last_print_time = std::time::Instant::now();
     println!("Initializing...");
     let config = config::get_config();
     println!("Config: {:?}", config);
@@ -45,6 +47,10 @@ fn main() {
             if current_pin_state != last_pin_state {
                 has_pin_changed = true;
                 last_pin_state = current_pin_state;
+            } else {
+            }
+            if last_print_time.elapsed().as_secs() > PRINT_INTERVAL {
+                println!("Current Pin State: {}", current_pin_state);
             }
             if has_pin_changed {
                 println!("Presence Change Detected");

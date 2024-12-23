@@ -24,8 +24,10 @@ services:
   node-red:
     image: nodered/node-red:latest
     container_name: node-red
-    ports:
-    - "1880:1880"  # Map Node-RED's default port to the host
+    # ports:
+    # - "1880:1880"  # Map Node-RED's default port to the host
+    # - "3456:3456"  # Alexa Config Port
+    network_mode: host
     volumes:
       - node_red_data:/data
     restart: unless-stopped
@@ -34,20 +36,17 @@ services:
     build: 
       context: ../../
       dockerfile: Dockerfile
-      target: dev
+      target: dev # Use dev for when building on Main Desktop Machine
     container_name: presence-detector
     restart: unless-stopped
-    network_mode: host
     privileged: true
     environment:
-      - MQTT_HOST=127.0.0.1
+      - MQTT_HOST=192.168.0.23
       - MQTT_PORT=1883
       - MQTT_CLIENT_ID=presence-detector
       - ROOM=master-bedroom
       - SENSOR_ID=1
       - PIN=1
-
-      
 
 volumes:
   portainer_data:
