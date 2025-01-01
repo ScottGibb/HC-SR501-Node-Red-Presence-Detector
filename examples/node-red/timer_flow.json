@@ -1,15 +1,8 @@
 [
   {
-    "id": "f6f2187d.f17ca8",
-    "type": "tab",
-    "label": "Presence Detector Example",
-    "disabled": false,
-    "info": ""
-  },
-  {
-    "id": "3cc11d24.ff01a2",
+    "id": "9970f47f962bc4aa",
     "type": "comment",
-    "z": "f6f2187d.f17ca8",
+    "z": "41ae43dc43a6bf6a",
     "name": "WARNING: please check you have started this container with a volume that is mounted to /data\\n otherwise any flow changes are lost when you redeploy or upgrade the container\\n (e.g. upgrade to a more recent node-red docker image).\\n  If you are using named volumes you can ignore this warning.\\n Double click or see info side panel to learn how to start Node-RED in Docker to save your work",
     "info": "\nTo start docker with a bind mount volume (-v option), for example:\n\n```\ndocker run -it -p 1880:1880 -v /home/user/node_red_data:/data --name mynodered nodered/node-red\n```\n\nwhere `/home/user/node_red_data` is a directory on your host machine where you want to store your flows.\n\nIf you do not do this then you can experiment and redploy flows, but if you restart or upgrade the container the flows will be disconnected and lost. \n\nThey will still exist in a hidden data volume, which can be recovered using standard docker techniques, but that is much more complex than just starting with a named volume as described above.",
     "x": 350,
@@ -17,112 +10,91 @@
     "wires": []
   },
   {
-    "id": "bf730879acae754f",
+    "id": "8a7e2c053082136f",
     "type": "mqtt in",
-    "z": "f6f2187d.f17ca8",
+    "z": "41ae43dc43a6bf6a",
     "name": "",
     "topic": "presence/master-bedroom/",
     "qos": "0",
     "datatype": "auto-detect",
-    "broker": "325e0bcfe1d2f98f",
+    "broker": "cb718f9f9a1c72be",
     "nl": false,
     "rap": true,
     "rh": 0,
     "inputs": 0,
-    "x": 350,
-    "y": 240,
-    "wires": [["5fc9fa0d84f2d12b", "8729a7cb0e7e1676"]]
+    "x": 190,
+    "y": 220,
+    "wires": [["504d8e915fdac982", "35e9173d2382cdf5"]]
   },
   {
-    "id": "5fc9fa0d84f2d12b",
+    "id": "504d8e915fdac982",
     "type": "debug",
-    "z": "f6f2187d.f17ca8",
-    "name": "debug 1",
+    "z": "41ae43dc43a6bf6a",
+    "name": "Display MQTT Messages",
     "active": true,
     "tosidebar": true,
     "console": false,
     "tostatus": false,
-    "complete": "true",
-    "targetType": "full",
+    "complete": "payload",
+    "targetType": "msg",
     "statusVal": "",
     "statusType": "auto",
-    "x": 860,
-    "y": 240,
+    "x": 670,
+    "y": 160,
     "wires": []
   },
   {
-    "id": "296a7f9db77e3313",
-    "type": "inject",
-    "z": "f6f2187d.f17ca8",
-    "name": "Timer",
-    "props": [
-      {
-        "p": "elapsed",
-        "v": "true",
-        "vt": "bool"
-      },
-      {
-        "p": "debugMessage",
-        "v": "10 Minutes has passed since last presence check",
-        "vt": "str"
-      }
-    ],
-    "repeat": "600",
-    "crontab": "",
-    "once": false,
-    "onceDelay": "30",
-    "topic": "",
-    "x": 410,
-    "y": 340,
-    "wires": [["8729a7cb0e7e1676", "5fc9fa0d84f2d12b"]]
-  },
-  {
-    "id": "8729a7cb0e7e1676",
+    "id": "35e9173d2382cdf5",
     "type": "function",
-    "z": "f6f2187d.f17ca8",
-    "name": "Timer Logic",
-    "func": "if(msg.elapsed == true){\n    if (context.get(\"presence\")){\n        context.set(\"presence\", false)\n    }else {\n        msg.turnOffLights = true;\n        return msg;\n    }\n}\n\n\nif (msg.payload && msg.payload.presence === true) {\n    // Detected Presence!\n    context.set(\"presence\", true)\n}\n",
-    "outputs": 1,
-    "timeout": 0,
-    "noerr": 0,
-    "initialize": "// Code added here will be run once\n// whenever the node is started.\ncontext.set(\"presence\", false)\n",
-    "finalize": "",
-    "libs": [],
-    "x": 610,
-    "y": 340,
-    "wires": [["5fc9fa0d84f2d12b", "09fe3fbd2ab36659"]]
-  },
-  {
-    "id": "e1b302d4de3a7d4f",
-    "type": "comment",
-    "z": "f6f2187d.f17ca8",
-    "name": "Turn off Whatever you want when no one is here",
-    "info": "",
-    "x": 980,
-    "y": 340,
-    "wires": []
-  },
-  {
-    "id": "09fe3fbd2ab36659",
-    "type": "function",
-    "z": "f6f2187d.f17ca8",
-    "name": "Turn off some Alexa Controlled Devices",
-    "func": "\nreturn msg;",
+    "z": "41ae43dc43a6bf6a",
+    "name": "Convert to Kasa Command",
+    "func": "msg.payload = msg.presence;\n\nreturn msg;\n",
     "outputs": 1,
     "timeout": 0,
     "noerr": 0,
     "initialize": "",
     "finalize": "",
     "libs": [],
-    "x": 960,
-    "y": 380,
+    "x": 640,
+    "y": 360,
     "wires": [[]]
   },
   {
-    "id": "325e0bcfe1d2f98f",
+    "id": "10f86d63f63b1203",
+    "type": "inject",
+    "z": "41ae43dc43a6bf6a",
+    "name": "Debug Injection",
+    "props": [
+      {
+        "p": "presence",
+        "v": "false",
+        "vt": "bool"
+      },
+      {
+        "p": "timestamp",
+        "v": "",
+        "vt": "date"
+      },
+      {
+        "p": "sensor_id",
+        "v": "10",
+        "vt": "str"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "onceDelay": 0.1,
+    "topic": "",
+    "x": 220,
+    "y": 280,
+    "wires": [["35e9173d2382cdf5"]]
+  },
+  {
+    "id": "cb718f9f9a1c72be",
     "type": "mqtt-broker",
     "name": "",
-    "broker": "localhost",
+    "broker": "mqtt-broker",
     "port": 1883,
     "clientid": "",
     "autoConnect": true,
