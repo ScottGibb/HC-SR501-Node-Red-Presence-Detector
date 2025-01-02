@@ -31,6 +31,10 @@ On the NodeRed side the following [flow](./examples/node-red/timer_flow.json) is
 
 This flow will turn the lights in the master bedroom on and off dependent on the presence and the time of day.
 
+### Alexa Integration Issues
+
+Sadly the [Alexa plugin for Node-red](https://flows.nodered.org/node/node-red-contrib-alexa-remote2-applestrudel) by applesstrudel is not working as expected. It seems to be a common issue with the plugin. THis meant that I couldnt control my smart bulb in the end. However the core logic for this system is there and can be added in the future.
+
 ## Getting Started
 
 Hardware wise, you must make sure the HC-SR501 is in Repeatable Trigger Mode and that the delay and sensitivity triggers are set accordingly.
