@@ -101,4 +101,5 @@ cargo run --example receiver
 
 - [HC-SR501](https://dronebotworkshop.com/using-pir-sensors-with-arduino-raspberry-pi/)
 - [Node-Red](https://cookbook.nodered.org/mqtt/connect-to-broker)
+- [Alexa Remote](https://flows.nodered.org/node/node-red-contrib-alexa-remote2-applestrudel)
 - [WSL2 Sharing USB Devices](https://learn.microsoft.com/en-us/windows/wsl/connect-usb)
