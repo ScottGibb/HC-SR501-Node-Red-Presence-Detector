@@ -1,5 +1,6 @@
 use std::error::Error;
 
+use log::info;
 use paho_mqtt as mqtt;
 pub struct MqttClient {
     topic: String,
@@ -13,6 +14,7 @@ impl MqttClient {
         client_id: String,
         topic: String,
     ) -> Result<MqttClient, Box<dyn Error>> {
+        info!("Initializing MQTT client...");
         let create_opts = mqtt::CreateOptionsBuilder::new()
             .server_uri(format!("tcp://{}:{}", host, port))
             .client_id(&client_id)
@@ -29,6 +31,7 @@ impl MqttClient {
             Ok(_) => (),
             Err(e) => return Err(Box::new(e)),
         };
+        info!("MQTT client initialized");
         Ok(MqttClient { topic, client })
     }
 

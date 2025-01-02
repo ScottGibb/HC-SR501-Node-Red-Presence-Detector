@@ -32,5 +32,5 @@ jobs:
       - name: Cargo Build Prod
         run: |
           source "$HOME"/.cargo/env
-          cargo build --features prod
+          cargo build --no-default-features --features prod
 

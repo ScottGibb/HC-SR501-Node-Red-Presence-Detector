@@ -5,19 +5,20 @@ edition = "2021"
 
 [dependencies]
 embedded-hal = "1.0.0"
-paho-mqtt = "0.12.5"
+paho-mqtt = {version =  "0.12.5"}
 ftdi ={ version = "0.1.3", optional = true }
 ftdi-embedded-hal = { version = "0.22.0", features = ["libftd2xx", "libftd2xx-static"], optional = true}
 rppal = {version = "0.22.1", features = ["hal"], optional = true}
 serde_json = "1.0.133"
 chrono = "0.4.39"
-
+env_logger = "0.11.6"
+log = "0.4.22"
 
 [features]
-default = ["prod","default-config"]
+default = ["dev"] # Useful for Rust Analyzer
 prod = ["rppal"]
 dev = ["ftdi", "ftdi-embedded-hal"]
-default-config = []
+dev-config = []
 
 
 

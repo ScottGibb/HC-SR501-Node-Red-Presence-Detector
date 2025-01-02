@@ -8,10 +8,10 @@ use std::process;
 /// when the user presses Enter. The message is a JSON object with a boolean `presence` field set to
 /// `true` and a `timestamp` field set to the current time in UTC.
 fn main() {
-    // let host_address = "localhost";
-    let host_address: &str = "192.168.0.69"; //PiLab
+    let host_address = "localhost";
+    // let host_address: &str = "192.168.0.69"; //PiLab
     let port = 1883;
-    let sensor_id = "1";
+    let sensor_id = "2";
     let topic = format!("presence/master-bedroom/");
 
     let create_opts = mqtt::CreateOptionsBuilder::new()
