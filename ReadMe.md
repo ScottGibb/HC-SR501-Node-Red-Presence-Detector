@@ -25,8 +25,9 @@ The Key parts are outlined below:
 
 ## Node Red Control FLow
 
-On the NodeRed side the following flow is used:
+On the NodeRed side the following [flow](./examples/node-red/timer_flow.json) is used:
 
+![Node Red Flow](./docs/node-red-flow.png)
 
 This flow will turn the lights in the master bedroom on and off dependent on the presence and the time of day.
 

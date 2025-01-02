@@ -22,7 +22,7 @@
     "inputs": 0,
     "x": 170,
     "y": 220,
-    "wires": [["504d8e915fdac982", "35e9173d2382cdf5"]]
+    "wires": [["504d8e915fdac982", "0c321eaa8f89989e"]]
   },
   {
     "id": "504d8e915fdac982",
@@ -37,25 +37,32 @@
     "targetType": "full",
     "statusVal": "",
     "statusType": "auto",
-    "x": 650,
-    "y": 160,
+    "x": 550,
+    "y": 240,
     "wires": []
   },
   {
     "id": "35e9173d2382cdf5",
     "type": "function",
     "z": "b100c9c25a08567d",
-    "name": "Convert to Alexa Command",
-    "func": "msg.payload = msg.presence;\n//TODO: Detect Time\n// Set Lifghts on if during the day\n// After 10pm ignore presence\nreturn msg;\n",
+    "name": "Convert to Lamp Command",
+    "func": "//TODO: Detect Time\n// Set Lifghts on if during the day\n// After 10pm ignore presence\n\nif (msg.payload.presence){\n    msg.command = \"TurnOnRequest\"\n}else {\n    msg.command = \"TurnOffRequest\"\n}\nreturn msg;\n",
     "outputs": 1,
     "timeout": 0,
     "noerr": 0,
     "initialize": "",
     "finalize": "",
     "libs": [],
-    "x": 620,
+    "x": 680,
     "y": 360,
-    "wires": [[]]
+    "wires": [
+      [
+        "ddc8c11a45c0a684",
+        "f4cdc19c332ba707",
+        "8de2a4c5fa7685f3",
+        "c9b065e7bcc1acdd"
+      ]
+    ]
   },
   {
     "id": "10f86d63f63b1203",
@@ -63,7 +70,7 @@
     "z": "b100c9c25a08567d",
     "name": "Debug Injection",
     "props": [
-      { "p": "presence", "v": "false", "vt": "bool" },
+      { "p": "payload.presence", "v": "true", "vt": "bool" },
       { "p": "timestamp", "v": "", "vt": "date" },
       { "p": "sensor_id", "v": "10", "vt": "str" }
     ],
@@ -74,19 +81,113 @@
     "topic": "",
     "x": 200,
     "y": 280,
-    "wires": [["35e9173d2382cdf5", "504d8e915fdac982"]]
+    "wires": [["504d8e915fdac982", "0c321eaa8f89989e"]]
   },
   {
-    "id": "ab237d357e9e7c14",
-    "type": "alexa-remote-smarthome",
+    "id": "ddc8c11a45c0a684",
+    "type": "link out",
+    "z": "b100c9c25a08567d",
+    "name": "Lamp Link Out",
+    "mode": "link",
+    "links": ["2952e127e4df6996"],
+    "x": 1125,
+    "y": 460,
+    "wires": []
+  },
+  {
+    "id": "96f177d5b3b323c2",
+    "type": "comment",
+    "z": "b100c9c25a08567d",
+    "name": "Bedroom Lamp Direct Control",
+    "info": "",
+    "x": 1280,
+    "y": 460,
+    "wires": []
+  },
+  {
+    "id": "f4cdc19c332ba707",
+    "type": "debug",
+    "z": "b100c9c25a08567d",
+    "name": "debug 2",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "true",
+    "targetType": "full",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 1160,
+    "y": 420,
+    "wires": []
+  },
+  {
+    "id": "8de2a4c5fa7685f3",
+    "type": "delay",
     "z": "b100c9c25a08567d",
     "name": "",
-    "account": "d46372812a1dbe0d",
-    "config": { "option": "action", "value": [{ "entity": "", "action": "" }] },
+    "pauseType": "delay",
+    "timeout": "1",
+    "timeoutUnits": "seconds",
+    "rate": "1",
+    "nbRateUnits": "1",
+    "rateUnits": "second",
+    "randomFirst": "1",
+    "randomLast": "5",
+    "randomUnits": "seconds",
+    "drop": false,
+    "allowrate": false,
     "outputs": 1,
-    "x": 1030,
-    "y": 300,
-    "wires": [[]]
+    "x": 940,
+    "y": 460,
+    "wires": [["ddc8c11a45c0a684"]]
+  },
+  {
+    "id": "c9b065e7bcc1acdd",
+    "type": "delay",
+    "z": "b100c9c25a08567d",
+    "name": "",
+    "pauseType": "delay",
+    "timeout": "2",
+    "timeoutUnits": "seconds",
+    "rate": "1",
+    "nbRateUnits": "1",
+    "rateUnits": "second",
+    "randomFirst": "1",
+    "randomLast": "5",
+    "randomUnits": "seconds",
+    "drop": false,
+    "allowrate": false,
+    "outputs": 1,
+    "x": 940,
+    "y": 500,
+    "wires": [["ddc8c11a45c0a684"]]
+  },
+  {
+    "id": "0c321eaa8f89989e",
+    "type": "function",
+    "z": "b100c9c25a08567d",
+    "name": "Time Limiter",
+    "func": "// Get the current time\nvar currentTime = new Date();\nvar startTime = new Date();\nvar endTime = new Date();\n\n// Set the start time (8:00 AM)\nstartTime.setHours(8, 0, 0, 0);\n\n// Set the end time (9:00 PM)\nendTime.setHours(21, 0, 0, 0);\n\n// Check if the current time is within the range\nif (currentTime >= startTime && currentTime <= endTime) {\n    // Pass the message through\n    return msg;\n}",
+    "outputs": 1,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 450,
+    "y": 360,
+    "wires": [["35e9173d2382cdf5"]]
+  },
+  {
+    "id": "3e5e6b6864be216d",
+    "type": "comment",
+    "z": "b100c9c25a08567d",
+    "name": "Alexa Overhead Light Control",
+    "info": "",
+    "x": 1280,
+    "y": 160,
+    "wires": []
   },
   {
     "id": "7a20cadb7f538efb",
@@ -118,24 +219,5 @@
     "willMsg": {},
     "userProps": "",
     "sessionExpiry": ""
-  },
-  {
-    "id": "d46372812a1dbe0d",
-    "type": "alexa-remote-account",
-    "name": "",
-    "authMethod": "proxy",
-    "proxyOwnIp": "192.168.0.68",
-    "proxyPort": "3456",
-    "cookieFile": "/cookie.txt",
-    "refreshInterval": "300",
-    "alexaServiceHost": "alexa.amazon.co.uk\t",
-    "pushDispatchHost": "",
-    "amazonPage": "amazon.co.uk\t",
-    "acceptLanguage": "en-US",
-    "onKeywordInLanguage": "on",
-    "userAgent": "",
-    "usePushConnection": "on",
-    "autoInit": "on",
-    "autoQueryActivityOnTrigger": "off"
   }
 ]
