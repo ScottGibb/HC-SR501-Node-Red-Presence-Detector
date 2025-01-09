@@ -168,7 +168,7 @@
     "type": "function",
     "z": "b100c9c25a08567d",
     "name": "Time Limiter",
-    "func": "// Get the current time\nvar currentTime = new Date();\nvar startTime = new Date();\nvar endTime = new Date();\n\n// Set the start time (8:00 AM)\nstartTime.setHours(8, 0, 0, 0);\n\n// Set the end time (9:00 PM)\nendTime.setHours(21, 0, 0, 0);\n\n// Check if the current time is within the range\nif (currentTime >= startTime && currentTime <= endTime) {\n    // Pass the message through\n    return msg;\n}",
+    "func": "// Get the current time\nvar currentTime = new Date();\nvar startTime = new Date();\nvar endTime = new Date();\n\n// Set the start time (8:00 AM)\nstartTime.setHours(8, 0, 0, 0);\n\n// Set the end time (9:00 PM)\nendTime.setHours(22, 0, 0, 0);\n\n// Check if the current time is within the range\nif (currentTime >= startTime && currentTime <= endTime) {\n    // Pass the message through\n    return msg;\n}",
     "outputs": 1,
     "timeout": 0,
     "noerr": 0,
@@ -177,7 +177,7 @@
     "libs": [],
     "x": 450,
     "y": 360,
-    "wires": [["35e9173d2382cdf5"]]
+    "wires": [["35e9173d2382cdf5", "510e43d50645a2ac"]]
   },
   {
     "id": "3e5e6b6864be216d",
@@ -187,6 +187,95 @@
     "info": "",
     "x": 1280,
     "y": 160,
+    "wires": []
+  },
+  {
+    "id": "7fe9cc2de6f7ac23",
+    "type": "comment",
+    "z": "b100c9c25a08567d",
+    "name": "TBC",
+    "info": "",
+    "x": 1270,
+    "y": 200,
+    "wires": []
+  },
+  {
+    "id": "8f78061b5b62a866",
+    "type": "mattermanager",
+    "z": "b100c9c25a08567d",
+    "name": "Overhead Light",
+    "controller": "935222afde0f1331",
+    "method": "commissionDevice",
+    "code": "1236-561-3486",
+    "codeType": "str",
+    "deviceid": "",
+    "deviceidType": "str",
+    "label": "Overhead Light",
+    "labelType": "str",
+    "x": 160,
+    "y": 500,
+    "wires": [["53bd750e361b887b"]]
+  },
+  {
+    "id": "53bd750e361b887b",
+    "type": "debug",
+    "z": "b100c9c25a08567d",
+    "name": "debug 3",
+    "active": false,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "true",
+    "targetType": "full",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 320,
+    "y": 500,
+    "wires": []
+  },
+  {
+    "id": "32cf6c17d291dc82",
+    "type": "mattercommand",
+    "z": "b100c9c25a08567d",
+    "name": "",
+    "controller": "935222afde0f1331",
+    "device": "",
+    "deviceName": "",
+    "endpoint": "",
+    "cluster": "",
+    "command": "",
+    "data": "{}",
+    "dataType": "json",
+    "simpleMode": false,
+    "x": 170,
+    "y": 560,
+    "wires": [[]]
+  },
+  {
+    "id": "510e43d50645a2ac",
+    "type": "function",
+    "z": "b100c9c25a08567d",
+    "name": "Convert to Server Rack Fan Command",
+    "func": "//TODO: Detect Time\n// Set Lifghts on if during the day\n// After 10pm ignore presence\n\nif (!msg.payload.presence){\n    msg.command = \"TurnOnRequest\"\n}else {\n    msg.command = \"SetPercentageRequest\"\n    msg.payload = 50\n}\nreturn msg;\n",
+    "outputs": 1,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 730,
+    "y": 600,
+    "wires": [["16201a204d79d877"]]
+  },
+  {
+    "id": "16201a204d79d877",
+    "type": "link out",
+    "z": "b100c9c25a08567d",
+    "name": "link out 1",
+    "mode": "link",
+    "links": ["a7ddd911dd868a4b"],
+    "x": 995,
+    "y": 600,
     "wires": []
   },
   {
@@ -219,5 +308,11 @@
     "willMsg": {},
     "userProps": "",
     "sessionExpiry": ""
+  },
+  {
+    "id": "935222afde0f1331",
+    "type": "mattercontroller",
+    "networkInterface": "eth0",
+    "logLevel": "DEBUG"
   }
 ]
