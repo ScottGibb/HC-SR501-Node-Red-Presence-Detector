@@ -33,7 +33,11 @@ This flow will turn the lights in the master bedroom on and off dependent on the
 
 ### Alexa Integration Issues
 
-Sadly the [Alexa plugin for Node-red](https://flows.nodered.org/node/node-red-contrib-alexa-remote2-applestrudel) by applesstrudel is not working as expected. It seems to be a common issue with the plugin. THis meant that I couldnt control my smart bulb in the end. However the core logic for this system is there and can be added in the future.
+Sadly the [Alexa plugin for Node-red](https://flows.nodered.org/node/node-red-contrib-alexa-remote2-applestrudel) by applesstrudel is not working as expected. It seems to be a common issue with the plugin. I sadly had to abandon hopes of controlling my plusminus lightbulb and moved on to using a Matter controlled light bulb.
+
+### Matter Integration
+
+I have since moved to using a matter controlled light bulb. This is a much better solution as it is more reliable and does not require the use of a plugin. The light bulb is controlled using the [Matter](https://flows.nodered.org/node/@sammachin/node-red-matter-controller) plugin.
 
 ## Getting Started
 
@@ -44,7 +48,7 @@ Then configure your docker-compose.yaml file like how its configured in the [exa
 Then when you are ready run the docker compose command:
 
 ```bash
-docker compose up 
+docker compose up
 ```
 
 ## Developer Notes
@@ -106,5 +110,6 @@ cargo run --example receiver
 
 - [HC-SR501](https://dronebotworkshop.com/using-pir-sensors-with-arduino-raspberry-pi/)
 - [Node-Red](https://cookbook.nodered.org/mqtt/connect-to-broker)
+- [Matter Controller](https://flows.nodered.org/node/@sammachin/node-red-matter-controller)
 - [Alexa Remote](https://flows.nodered.org/node/node-red-contrib-alexa-remote2-applestrudel)
 - [WSL2 Sharing USB Devices](https://learn.microsoft.com/en-us/windows/wsl/connect-usb)
