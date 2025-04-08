@@ -30,13 +30,11 @@ fn main() {
         .subscribe(topic, 1)
         .expect("Failed to subscribe, are you sure the topic is correct?");
 
-    for msg in client.start_consuming() {
-        if let Some(msg) = msg {
-            let payload_str = msg.payload_str();
-            match serde_json::from_str::<Value>(&payload_str) {
-                Ok(json) => println!("Received JSON: {:?}", json),
-                Err(e) => println!("Error parsing JSON: {:?}", e),
-            }
+    for msg in client.start_consuming().into_iter().flatten() {
+        let payload_str = msg.payload_str();
+        match serde_json::from_str::<Value>(&payload_str) {
+            Ok(json) => println!("Received JSON: {:?}", json),
+            Err(e) => println!("Error parsing JSON: {:?}", e),
         }
     }
 }

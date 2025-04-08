@@ -3,8 +3,8 @@ services:
     image: eclipse-mosquitto:latest
     container_name: mqtt-broker
     ports:
-      - "1883:1883"  # MQTT port
-      - "9002:9001"  # MQTT over WebSockets (optional, for MQTT over WebSocket support)
+      - "1883:1883" # MQTT port
+      - "9002:9001" # MQTT over WebSockets (optional, for MQTT over WebSocket support)
     volumes:
       - ./config:/mosquitto/config
       - mosquitto_data:/mosquitto/data
@@ -22,13 +22,13 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - portainer_data:/data
     restart: unless-stopped
-    
+
   node-red:
     image: nodered/node-red:latest
     container_name: node-red
     ports:
-    - "1880:1880"  # Map Node-RED's default port to the host
-    - "3456:3456"  # Alexa Config Port
+      - "1880:1880" # Map Node-RED's default port to the host
+      - "3456:3456" # Alexa Config Port
     privileged: true
     # network_mode: host
     volumes:
@@ -40,7 +40,7 @@ services:
       - mqtt-broker
 
   presence-detector:
-    build: 
+    build:
       context: ../../
       dockerfile: Dockerfile
       target: dev # Use dev for when building on Main Desktop Machine

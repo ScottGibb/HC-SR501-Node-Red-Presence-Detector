@@ -33,4 +33,3 @@ jobs:
         run: |
           source "$HOME"/.cargo/env
           cargo build --no-default-features --features prod
-
