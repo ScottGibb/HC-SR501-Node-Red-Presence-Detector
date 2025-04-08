@@ -42,7 +42,7 @@ MARKDOWN_MARKDOWNLINT_CONFIG_FILE: .markdownlint.json
 
 # Sys Dependencies
 PRE_COMMANDS:
-  - command: apk install pkg-config libssl-dev
+  - command: apk add pkg-config libssl-dev
     cwd: root
     secured_env: true
     run_before_linters: True
