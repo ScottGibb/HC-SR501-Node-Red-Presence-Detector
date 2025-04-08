@@ -12,7 +12,7 @@ fn main() {
     // let host_address: &str = "192.168.0.69"; //PiLab
     let port = 1883;
     let sensor_id = "2";
-    let topic = format!("presence/master-bedroom/");
+    let topic = "presence/master-bedroom/";
 
     let create_opts = mqtt::CreateOptionsBuilder::new()
         .server_uri(format!("tcp://{}:{}", host_address, port))
@@ -56,7 +56,7 @@ fn main() {
                 "timestamp": Utc::now().to_string(),
             });
 
-            let msg = mqtt::Message::new(topic.clone(), message.to_string(), mqtt::QOS_1);
+            let msg = mqtt::Message::new(topic, message.to_string(), mqtt::QOS_1);
 
             // Attempt to publish the message
             if let Err(e) = client.publish(msg) {
