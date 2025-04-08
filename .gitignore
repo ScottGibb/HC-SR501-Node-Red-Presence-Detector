@@ -19,3 +19,6 @@ debug/
 # Ignore draw.io backup files
 *.bkp
 *.dtmp
+
+# Ignore megalinter reports
+megalinter-reports/
