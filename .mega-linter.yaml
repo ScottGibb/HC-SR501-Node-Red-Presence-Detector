@@ -42,7 +42,7 @@ MARKDOWN_MARKDOWNLINT_CONFIG_FILE: .markdownlint.json
 
 # Sys Dependencies
 PRE_COMMANDS:
-  - command: apk add pkgconf openssl-dev g++ gcc libc-dev
+  - command: apk add pkgconf openssl-dev g++ gcc libc-dev cmake
     cwd: root
     secured_env: true
     run_before_linters: True
