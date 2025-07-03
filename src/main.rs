@@ -68,7 +68,8 @@ fn main() {
                 });
                 info!("Sending message: {}", message);
                 if let Err(e) = mqtt.send_message(message.to_string()) {
-                    warn!("Failed to send message: {}", e);
+                    error!("Failed to send message: {}", e);
+                    return;
                 }
                 has_pin_changed = false;
             }
