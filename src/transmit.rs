@@ -16,7 +16,7 @@ impl MqttClient {
     ) -> Result<MqttClient, Box<dyn Error>> {
         info!("Initializing MQTT client...");
         let create_opts = mqtt::CreateOptionsBuilder::new()
-            .server_uri(format!("tcp://{}:{}", host, port))
+            .server_uri(format!("tcp://{host}:{port}"))
             .client_id(&client_id)
             .finalize();
         let client = match mqtt::Client::new(create_opts) {

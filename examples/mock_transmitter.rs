@@ -15,12 +15,12 @@ fn main() {
     let topic = "presence/master-bedroom/";
 
     let create_opts = mqtt::CreateOptionsBuilder::new()
-        .server_uri(format!("tcp://{}:{}", host_address, port))
-        .client_id(format!("transmitter-{}", sensor_id))
+        .server_uri(format!("tcp://{host_address}:{port}"))
+        .client_id(format!("transmitter-{sensor_id}"))
         .finalize();
 
     let client = mqtt::Client::new(create_opts).unwrap_or_else(|err| {
-        println!("Error creating the client: {:?}", err);
+        println!("Error creating the client: {err:?}");
         process::exit(1);
     });
 
@@ -31,7 +31,7 @@ fn main() {
 
     // Connect and wait for it to complete or fail
     if let Err(e) = client.connect(conn_opts) {
-        println!("Unable to connect:\n\t{:?}", e);
+        println!("Unable to connect:\n\t{e:?}");
         process::exit(1);
     }
 
@@ -60,21 +60,21 @@ fn main() {
 
             // Attempt to publish the message
             if let Err(e) = client.publish(msg) {
-                println!("Error sending message: {:?}", e);
+                println!("Error sending message: {e:?}");
                 // If message sending fails, try reconnecting
                 if let Err(e) = client.reconnect() {
-                    println!("Error reconnecting: {:?}", e);
+                    println!("Error reconnecting: {e:?}");
                     break; // If we cannot reconnect, exit the loop
                 }
             } else {
-                println!("Message sent on topic: [{}]: {}", topic, message);
+                println!("Message sent on topic: [{topic}]: {message}");
             }
         }
     }
 
     // Graceful shutdown: disconnect from the MQTT broker
     if let Err(e) = client.disconnect(None) {
-        println!("Error disconnecting: {:?}", e);
+        println!("Error disconnecting: {e:?}");
     }
 
     println!("Disconnected. Exiting...");

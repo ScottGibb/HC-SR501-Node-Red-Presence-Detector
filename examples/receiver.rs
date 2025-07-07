@@ -11,7 +11,7 @@ fn main() {
     let topic = "presence/master-bedroom/";
 
     let create_opts = mqtt::CreateOptionsBuilder::new()
-        .server_uri(format!("tcp://{}:{}", host_address, port))
+        .server_uri(format!("tcp://{host_address}:{port}"))
         .client_id("receiver")
         .finalize();
 
@@ -33,8 +33,8 @@ fn main() {
     for msg in client.start_consuming().into_iter().flatten() {
         let payload_str = msg.payload_str();
         match serde_json::from_str::<Value>(&payload_str) {
-            Ok(json) => println!("Received JSON: {:?}", json),
-            Err(e) => println!("Error parsing JSON: {:?}", e),
+            Ok(json) => println!("Received JSON: {json:?}"),
+            Err(e) => println!("Error parsing JSON: {e:?}"),
         }
     }
 }
