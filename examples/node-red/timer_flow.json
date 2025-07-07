@@ -1,1 +1,27 @@
-[{"id":"3557633632a87454","type":"mattercommand","z":"b100c9c25a08567d","name":"","controller":"b8db8456c9574202","device":"990383581080373317-1","deviceName":"Overhead Light","endpoint":"","cluster":"6","command":"on","data":"{}","dataType":"json","simpleMode":true,"x":1190,"y":140,"wires":[[]]},{"id":"b8db8456c9574202","type":"mattercontroller","networkInterface":"eth0","storageLocation":"/data/.matter","logLevel":"DEBUG"}]
+[
+  {
+    "id": "3557633632a87454",
+    "type": "mattercommand",
+    "z": "b100c9c25a08567d",
+    "name": "",
+    "controller": "b8db8456c9574202",
+    "device": "990383581080373317-1",
+    "deviceName": "Overhead Light",
+    "endpoint": "",
+    "cluster": "6",
+    "command": "on",
+    "data": "{}",
+    "dataType": "json",
+    "simpleMode": true,
+    "x": 1190,
+    "y": 140,
+    "wires": [[]]
+  },
+  {
+    "id": "b8db8456c9574202",
+    "type": "mattercontroller",
+    "networkInterface": "eth0",
+    "storageLocation": "/data/.matter",
+    "logLevel": "DEBUG"
+  }
+]
