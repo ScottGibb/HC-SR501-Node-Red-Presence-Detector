@@ -25,13 +25,13 @@ pub fn get_config() -> Config {
     let pin = env::var("PIN").expect("PIN environment variable not set");
     let room = env::var("ROOM").expect("ROOM environment variable not set");
     let sensor_id = env::var("SENSOR_ID").expect("SENSOR_ID environment variable not set");
-    let mqtt_topic = format!("presence/{}/", room);
+    let mqtt_topic = format!("presence/{room}/");
     info!("Configuration read successfully");
     Config {
         mqtt: MqttConfig {
             host: mqtt_host,
             port: mqtt_port.parse().unwrap(),
-            client_id: format!("transmitter-{}", sensor_id),
+            client_id: format!("transmitter-{sensor_id}"),
             topic: mqtt_topic,
         },
         pin,

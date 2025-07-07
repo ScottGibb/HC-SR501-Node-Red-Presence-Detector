@@ -14,11 +14,11 @@ fn main() {
     let last_print_time = std::time::Instant::now();
     info!("Initializing...");
     let config = config::get_config();
-    info!("Config Accepted: {:?}", config);
+    info!("Config Accepted: {config:?}");
     let mut pin = match pins::get_pin(config.pin) {
         Ok(pin) => pin,
         Err(e) => {
-            error!("Error: {}", e);
+            error!("Error: {e}");
             return;
         }
     };
@@ -30,7 +30,7 @@ fn main() {
     ) {
         Ok(mqtt) => mqtt,
         Err(e) => {
-            eprintln!("Error: {}", e);
+            eprintln!("Error: {e}");
             return;
         }
     };
@@ -44,7 +44,7 @@ fn main() {
             let current_pin_state = match pin.is_high() {
                 Ok(current_pin_state) => current_pin_state,
                 Err(e) => {
-                    warn!("Failed to read pin state: {}", e);
+                    warn!("Failed to read pin state: {e}");
                     error!("Exiting...");
                     break;
                 }
@@ -57,7 +57,7 @@ fn main() {
                 last_pin_state = current_pin_state;
             }
             if last_print_time.elapsed().as_secs() > PRINT_INTERVAL {
-                debug!("Current Pin State: {}", current_pin_state);
+                debug!("Current Pin State: {current_pin_state}");
             }
             if has_pin_changed {
                 info!("Presence Change Detected");
@@ -66,9 +66,9 @@ fn main() {
                     "timestamp": chrono::Utc::now().to_string(),
                     "sensor_id": config.sensor_id,
                 });
-                info!("Sending message: {}", message);
+                info!("Sending message: {message}");
                 if let Err(e) = mqtt.send_message(message.to_string()) {
-                    error!("Failed to send message: {}", e);
+                    error!("Failed to send message: {e}");
                     return;
                 }
                 has_pin_changed = false;
