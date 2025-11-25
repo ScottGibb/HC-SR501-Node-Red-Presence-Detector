@@ -2,6 +2,7 @@
 name = "presence-detector"
 version = "1.1.5"
 edition = "2021"
+publish = false
 
 [dependencies]
 embedded-hal = "1"
