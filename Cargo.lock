@@ -594,7 +594,7 @@ dependencies = [
 
 [[package]]
 name = "presence-detector"
-version = "1.1.5"
+version = "1.2.0"
 dependencies = [
  "chrono",
  "embedded-hal 1.0.0",
