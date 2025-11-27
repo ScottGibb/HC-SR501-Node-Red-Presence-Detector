@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.1](https://github.com/ScottGibb/HC-SR501-Node-Red-Presence-Detector/compare/v1.2.0...v1.2.1) (2025-11-27)
+
+
+### Bug Fixes
+
+* Dependabot configuration ([d0dfd09](https://github.com/ScottGibb/HC-SR501-Node-Red-Presence-Detector/commit/d0dfd0901143131e2ed6f84fcf5fafe1ade7cafe))
+
 ## [1.2.0](https://github.com/ScottGibb/HC-SR501-Node-Red-Presence-Detector/compare/v1.1.4...v1.2.0) (2025-11-27)
 
 ### Features
