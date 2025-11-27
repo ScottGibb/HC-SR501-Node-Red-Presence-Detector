@@ -24,7 +24,7 @@ updates:
 
   - package-ecosystem: "docker"
     directories:
-      - "**/*"
+      - "/"
     schedule:
       interval: "weekly"
     commit-message:
@@ -33,7 +33,9 @@ updates:
 
   - package-ecosystem: "docker-compose"
     directories:
+      - "**/**/*"
       - "**/*"
+      - "/"
     schedule:
       interval: "weekly"
     commit-message:
