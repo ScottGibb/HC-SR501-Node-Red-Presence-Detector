@@ -7,19 +7,23 @@ publish = false
 [dependencies]
 embedded-hal = "1"
 paho-mqtt = {version =  "0.13"}
-ftdi ={ version = "0.1", optional = true }
-ftdi-embedded-hal = { version = "0.23", features = ["libftd2xx", "libftd2xx-static"], optional = true}
-rppal = {version = "0.22", features = ["hal"], optional = true}
 serde_json = "1"
 chrono = "0.4"
 env_logger = "0.11"
 log = "0.4"
+
+# Optional Dependencies for different hardware platforms
+ftdi = { version = "0.1", optional = true }
+ftdi-embedded-hal = { version = "0.23", features = ["libftd2xx", "libftd2xx-static"], optional = true }
+rppal = {version = "0.22", features = ["hal"], optional = true}
+
 
 [features]
 default = ["dev"] # Useful for Rust Analyzer
 prod = ["rppal"]
 dev = ["ftdi", "ftdi-embedded-hal"]
 dev-config = []
+
 
 
 
