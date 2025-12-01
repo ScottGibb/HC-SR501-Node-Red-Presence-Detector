@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.0](https://github.com/ScottGibb/HC-SR501-Node-Red-Presence-Detector/compare/v1.2.1...v1.3.0) (2025-12-01)
+
+
+### Features
+
+* Add Commitment Issues ([eb95074](https://github.com/ScottGibb/HC-SR501-Node-Red-Presence-Detector/commit/eb9507492c7ed6372ed78c29fe31e185af6440f4))
+
 ## [1.2.1](https://github.com/ScottGibb/HC-SR501-Node-Red-Presence-Detector/compare/v1.2.0...v1.2.1) (2025-11-27)
 
 ### Bug Fixes
