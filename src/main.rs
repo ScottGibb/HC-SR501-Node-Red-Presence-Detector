@@ -1,6 +1,8 @@
+use commitment_issues::include_metadata;
 #[cfg(feature = "dev")]
 use embedded_hal::digital::InputPin;
 
+include_metadata!();
 mod config;
 mod pins;
 mod transmit;
@@ -12,6 +14,9 @@ const PRINT_INTERVAL: u64 = 60 * 30; // seconds
 fn main() {
     env_logger::init();
     let last_print_time = std::time::Instant::now();
+    info!("Presence Detector Version");
+    info!("Tag: {}", metadata::tag_describe());
+    info!("Author: {}", metadata::last_author());
     info!("Initializing...");
     let config = config::get_config();
     info!("Config Accepted: {config:?}");

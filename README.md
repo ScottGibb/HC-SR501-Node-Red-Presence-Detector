@@ -55,7 +55,7 @@ docker compose up
 If you are developing with this project, I like to use the [FT232H Breakout Board](https://www.adafruit.com/product/2264) which provides desktop with GPIO, I2C and SPI connections. This can be done using the following command
 
 ```bash
-cargo run --features=dev
+RUST_LOG=info cargo run --features=dev
 ```
 
 This will used the dev-config found [here](./src/config.rs). You may also need to install the following dependencies for the FTD232H Board if you choose to work with it:
