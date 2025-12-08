@@ -2,11 +2,9 @@
 
 ## [1.4.0](https://github.com/ScottGibb/HC-SR501-Node-Red-Presence-Detector/compare/v1.3.0...v1.4.0) (2025-12-08)
 
-
 ### Features
 
 * Add CODEOWNERS file ([770f228](https://github.com/ScottGibb/HC-SR501-Node-Red-Presence-Detector/commit/770f228aa145cdfb518dd872c590d124c7a39a1f))
-
 
 ### Bug Fixes
 
