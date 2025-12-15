@@ -2,12 +2,10 @@
 
 ## [1.4.0](https://github.com/ScottGibb/HC-SR501-Node-Red-Presence-Detector/compare/v1.3.0...v1.4.0) (2025-12-15)
 
-
 ### Features
 
 * Add CODEOWNERS file ([770f228](https://github.com/ScottGibb/HC-SR501-Node-Red-Presence-Detector/commit/770f228aa145cdfb518dd872c590d124c7a39a1f))
 * **ci:** Update Dependabot workflow for auto-merging ([1a68c4b](https://github.com/ScottGibb/HC-SR501-Node-Red-Presence-Detector/commit/1a68c4bddeae657e98d7d839fa08c787ab5dba24))
-
 
 ### Bug Fixes
 
