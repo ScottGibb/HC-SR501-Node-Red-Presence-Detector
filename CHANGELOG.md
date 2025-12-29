@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.2](https://github.com/ScottGibb/HC-SR501-Node-Red-Presence-Detector/compare/v1.4.1...v1.4.2) (2025-12-29)
+
+
+### Bug Fixes
+
+* **deps:** bump serde_json from 1.0.146 to 1.0.148 ([e096295](https://github.com/ScottGibb/HC-SR501-Node-Red-Presence-Detector/commit/e09629544d7190585bae8dfe803b427116da67ea))
+
 ## [1.4.1](https://github.com/ScottGibb/HC-SR501-Node-Red-Presence-Detector/compare/v1.4.0...v1.4.1) (2025-12-22)
 
 ### Bug Fixes
