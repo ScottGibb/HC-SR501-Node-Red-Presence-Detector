@@ -282,9 +282,9 @@ dependencies = [
 
 [[package]]
 name = "ftdi-embedded-hal"
-version = "0.23.2"
+version = "0.24.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "0fe355bc850d50b44519d42f875b788e6cb01fd52e4a6292250b23b29d6d5d8e"
+checksum = "1fd7bafbcca59757bcfe01b96717a0c4abe9f68cba3ffd547721042618d556f0"
 dependencies = [
  "embedded-hal 0.2.7",
  "embedded-hal 1.0.0",

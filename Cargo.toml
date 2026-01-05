@@ -14,7 +14,7 @@ commitment-issues = { git = "https://github.com/dysonltd/commitment-issues", bra
 
 # Optional Dependencies for different hardware platforms
 ftdi = { version = "0.1", optional = true }
-ftdi-embedded-hal = { version = "0.23", features = ["libftd2xx", "libftd2xx-static"], optional = true }
+ftdi-embedded-hal = { version = "0.24", features = ["libftd2xx", "libftd2xx-static"], optional = true }
 rppal = {version = "0.22", features = ["hal"], optional = true}
 
 [build-dependencies]
