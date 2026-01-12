@@ -841,7 +841,7 @@ dependencies = [
 
 [[package]]
 name = "presence-detector"
-version = "1.4.1"
+version = "1.4.2"
 dependencies = [
  "chrono",
  "commitment-issues",
