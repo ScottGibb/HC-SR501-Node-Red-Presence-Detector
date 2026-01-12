@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.4.2](https://github.com/ScottGibb/HC-SR501-Node-Red-Presence-Detector/compare/v1.4.1...v1.4.2) (2026-01-12)
+
+
+### Bug Fixes
+
+* **deps:** bump ftdi-embedded-hal from 0.23.2 to 0.24.0 ([9bc155f](https://github.com/ScottGibb/HC-SR501-Node-Red-Presence-Detector/commit/9bc155f0842b73b445c213916d1081aed2e56ce7))
+* **deps:** bump serde_json from 1.0.146 to 1.0.148 ([e096295](https://github.com/ScottGibb/HC-SR501-Node-Red-Presence-Detector/commit/e09629544d7190585bae8dfe803b427116da67ea))
+* **deps:** bump serde_json from 1.0.148 to 1.0.149 ([2a567c5](https://github.com/ScottGibb/HC-SR501-Node-Red-Presence-Detector/commit/2a567c50263bb86a7983699dd8f2acc31bb8872d))
+
 ## [1.4.1](https://github.com/ScottGibb/HC-SR501-Node-Red-Presence-Detector/compare/v1.4.0...v1.4.1) (2025-12-22)
 
 ### Bug Fixes
