@@ -2,7 +2,6 @@
 
 ## [1.4.2](https://github.com/ScottGibb/HC-SR501-Node-Red-Presence-Detector/compare/v1.4.1...v1.4.2) (2026-01-12)
 
-
 ### Bug Fixes
 
 * **deps:** bump ftdi-embedded-hal from 0.23.2 to 0.24.0 ([9bc155f](https://github.com/ScottGibb/HC-SR501-Node-Red-Presence-Detector/commit/9bc155f0842b73b445c213916d1081aed2e56ce7))
