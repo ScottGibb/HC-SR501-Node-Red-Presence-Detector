@@ -6,4 +6,4 @@ examples
 *.md
 *.json
 *.yaml
-.git
+!.git
