@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.4.4](https://github.com/ScottGibb/HC-SR501-Node-Red-Presence-Detector/compare/v1.4.3...v1.4.4) (2026-02-08)
+
+
+### Bug Fixes
+
+* add dockerignore ([aaf4566](https://github.com/ScottGibb/HC-SR501-Node-Red-Presence-Detector/commit/aaf4566e99f8bc2decf1fd8fb682c39241a35787))
+* dockerfile versions ([d10163d](https://github.com/ScottGibb/HC-SR501-Node-Red-Presence-Detector/commit/d10163d1ac2980956d340ffed25e7439ce06e3ac))
+
 ## [1.4.3](https://github.com/ScottGibb/HC-SR501-Node-Red-Presence-Detector/compare/v1.4.2...v1.4.3) (2026-02-04)
 
 ### Bug Fixes
