@@ -1,6 +1,6 @@
 services:
   mqtt-broker:
-    image: eclipse-mosquitto:latest
+    image: eclipse-mosquitto:2.0.20
     container_name: mqtt-broker
     ports:
       - "1883:1883" # MQTT port
@@ -14,7 +14,7 @@ services:
       - IOT
 
   portainer:
-    image: portainer/portainer-ce:latest
+    image: portainer/portainer-ce:2.21.4
     container_name: portainer
     ports:
       - "9000:9000"
@@ -24,7 +24,7 @@ services:
     restart: unless-stopped
 
   node-red:
-    image: nodered/node-red:latest
+    image: nodered/node-red:4.0.8
     container_name: node-red
     ports:
       - "1880:1880" # Map Node-RED's default port to the host
