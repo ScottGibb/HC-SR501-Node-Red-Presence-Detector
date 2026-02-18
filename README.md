@@ -6,7 +6,7 @@
 
 ## Summary
 
-This is a simple project in which a HC-SR501 PIR sensor is used to detect motion in a room. MQTT is used as the message broke between NodeRed and Rust running on a Raspberry Pi 4. The code detects the presence and then notifies the server on a change in presence. Node Red then tells Alexa to turn the lights on and off within a time frame.
+This is a simple project in which a HC-SR501 PIR sensor is used to detect motion in a room. MQTT is used as the message broker between Home Assistant/Node-Red and Rust running on a Raspberry Pi 4. The code detects the presence and then notifies the server on a change in presence using Home Assistant MQTT Discovery conventions. Node Red or Home Assistant can then control lights on and off within a time frame based on presence and time of day.
 
 ## System Architecture
 
@@ -16,11 +16,11 @@ The architecture of the system is shown in the diagram below:
 
 The Key parts are outlined below:
 
-- **Rust Presence Detector**: Is a simple Script that uses polling to detect when the PIR Sensor is triggered. The PIR Sensor is configured for Repeatable Trigger Mode at. The code is constantly checking the pin every 5 seconds or so (This can be configured). At which point it sends an MQTT message on a state change.
+- **Rust Presence Detector**: Is a simple Script that uses polling to detect when the PIR Sensor is triggered. The PIR Sensor is configured for Repeatable Trigger Mode at. The code is constantly checking the pin every 5 seconds or so (This can be configured). At which point it sends an MQTT message on a state change using Home Assistant MQTT Discovery conventions.
 
-- **MQTT Broker** Receives this message before forwarding it on to NodeRed as its subscribed to the same room topic.
+- **MQTT Broker** Receives this message before forwarding it on to Home Assistant and/or Node-Red as they are subscribed to the Home Assistant discovery topics.
 
-- **Node-Red** Will then set its internal presence state before thend decided what to do. Based on the time of day the lights may come on or off depending on the state.
+- **Home Assistant/Node-Red** Will receive the presence state and can then decide what to do. Based on the time of day, the lights may come on or off depending on the state.
 
 ## Node Red Control FLow
 
@@ -37,6 +37,16 @@ Sadly the [Alexa plugin for Node-red](https://flows.nodered.org/node/node-red-co
 ### Matter Integration
 
 I have since moved to using a matter controlled light bulb. This is a much better solution as it is more reliable and does not require the use of a plugin. The light bulb is controlled using the [Matter](https://flows.nodered.org/node/@sammachin/node-red-matter-controller) plugin.
+
+## Home Assistant Integration
+
+The presence detector now uses Home Assistant MQTT Discovery conventions, making it automatically discoverable by Home Assistant. The sensor publishes to the following topics:
+
+- **Discovery Topic**: `homeassistant/binary_sensor/{device_id}/config` - Contains the sensor configuration for auto-discovery
+- **State Topic**: `homeassistant/binary_sensor/{device_id}/state` - Publishes `ON` when presence is detected, `OFF` when no presence
+- **Availability Topic**: `homeassistant/binary_sensor/{device_id}/availability` - Publishes `online` when connected, `offline` when disconnected
+
+The sensor will automatically appear in Home Assistant as a binary sensor with device class `occupancy`. You can then use it in automations to control lights, scenes, or any other Home Assistant entities.
 
 ## Getting Started
 
@@ -98,11 +108,14 @@ Bus 002 Device 001: ID 1d6b:0003 Linux Foundation 3.0 root hub
 
 ## Extra Examples
 
-When developing this code I wrote some simple MQTT code which could send and receive from the broker. It can be ran like the following:
+When developing this code I wrote some simple MQTT code which could send and receive from the broker using Home Assistant conventions. It can be ran like the following:
 
 ```bash
-cargo run --example mock_transmitter
-cargo run --example receiver
+cargo run --example mock_transmitter  # Sends ON state and publishes discovery config
+cargo run --example receiver          # Subscribes to Home Assistant state topic
+```
+
+These examples demonstrate the Home Assistant MQTT Discovery pattern and can be useful for testing your MQTT broker and Home Assistant integration.
 ```
 
 ## Useful Links
