@@ -41,7 +41,7 @@ fn main() {
 
     // Publish discovery configuration for Home Assistant
     let discovery_config = serde_json::json!({
-        "name": format!("{} Presence {}", room.replace('_', " "), sensor_id),
+        "name": format!("{} Presence Sensor", room.replace('_', " ")),
         "device_class": "occupancy",
         "state_topic": state_topic,
         "availability_topic": availability_topic,
@@ -50,6 +50,12 @@ fn main() {
         "payload_available": "online",
         "payload_not_available": "offline",
         "unique_id": format!("presence_detector_{}", sensor_id),
+        "device": {
+            "identifiers": [format!("presence_detector_{}", sensor_id)],
+            "name": format!("{} Presence Sensor", room.replace('_', " ")),
+            "model": "HC-SR501",
+            "manufacturer": "Custom"
+        }
     });
     let discovery_msg = mqtt::Message::new(&discovery_topic, discovery_config.to_string(), mqtt::QOS_1);
     if let Err(e) = client.publish(discovery_msg) {

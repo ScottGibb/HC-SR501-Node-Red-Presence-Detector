@@ -34,7 +34,7 @@ fn main() {
         config.mqtt.state_topic,
         config.mqtt.availability_topic,
         config.mqtt.discovery_topic,
-        format!("{} Presence", config.room.replace('_', " ").replace('-', " ")),
+        format!("{} Presence Sensor", config.room.replace('_', " ").replace('-', " ")),
     ) {
         Ok(mqtt) => mqtt,
         Err(e) => {

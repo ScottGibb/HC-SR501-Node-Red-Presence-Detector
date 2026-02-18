@@ -51,6 +51,12 @@ impl MqttClient {
             "payload_available": "online",
             "payload_not_available": "offline",
             "unique_id": client_id,
+            "device": {
+                "identifiers": [client_id.clone()],
+                "name": device_name,
+                "model": "HC-SR501",
+                "manufacturer": "Custom"
+            }
         });
         let discovery_msg = mqtt::Message::new(
             discovery_topic,
@@ -92,7 +98,11 @@ impl Drop for MqttClient {
     fn drop(&mut self) {
         // Publish offline availability before disconnecting
         let availability_msg = mqtt::Message::new(&self.availability_topic, "offline", mqtt::QOS_1);
-        let _ = self.client.publish(availability_msg);
-        let _ = self.client.disconnect(None);
+        if let Err(e) = self.client.publish(availability_msg) {
+            log::warn!("Failed to publish offline status: {}", e);
+        }
+        if let Err(e) = self.client.disconnect(None) {
+            log::warn!("Failed to disconnect gracefully: {}", e);
+        }
     }
 }
