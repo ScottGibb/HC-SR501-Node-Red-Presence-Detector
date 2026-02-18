@@ -2,7 +2,6 @@
 
 ## [1.4.5](https://github.com/ScottGibb/HC-SR501-Node-Red-Presence-Detector/compare/v1.4.4...v1.4.5) (2026-02-18)
 
-
 ### Bug Fixes
 
 * **deps:** bump env_logger from 0.11.8 to 0.11.9 ([23ed533](https://github.com/ScottGibb/HC-SR501-Node-Red-Presence-Detector/commit/23ed533ac1071a453cd2789a9e710fe525b32c25))
