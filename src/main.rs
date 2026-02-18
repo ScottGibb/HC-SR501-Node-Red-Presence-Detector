@@ -124,8 +124,7 @@ fn main() {
         }
     };
     
-    let sensor_id = config.sensor_id.clone();
-    let sensor_id = Arc::new(sensor_id);
+    let sensor_id = Arc::new(config.sensor_id.clone());
     let sensor_id_callback = sensor_id.clone();
     let running = Arc::new(AtomicBool::new(true));
     let running_clone = running.clone();
@@ -162,9 +161,21 @@ fn main() {
     
     info!("Setting up async interrupt handler");
     
-    // Get initial pin state
+    // Get and send initial pin state
     let initial_state = pin.is_high();
     info!("Initial pin state: {}", initial_state);
+    
+    // Send initial state message
+    let initial_message = serde_json::json!({
+        "presence": initial_state,
+        "timestamp": chrono::Utc::now().to_string(),
+        "sensor_id": sensor_id.as_ref(),
+    })
+    .to_string();
+    info!("Sending initial message: {}", initial_message);
+    if let Err(e) = tx.send(initial_message) {
+        error!("Failed to send initial message to MQTT thread: {e}");
+    }
     
     // Setup async interrupt on both rising and falling edges
     let result = pin.set_async_interrupt(
