@@ -125,6 +125,8 @@ fn main() {
     };
     
     let sensor_id = config.sensor_id.clone();
+    let sensor_id = Arc::new(sensor_id);
+    let sensor_id_callback = sensor_id.clone();
     let running = Arc::new(AtomicBool::new(true));
     let running_clone = running.clone();
     
@@ -183,11 +185,12 @@ fn main() {
             let message = serde_json::json!({
                 "presence": presence,
                 "timestamp": chrono::Utc::now().to_string(),
-                "sensor_id": sensor_id,
-            });
+                "sensor_id": sensor_id_callback.as_ref(),
+            })
+            .to_string();
             
             // Send message to MQTT thread via channel
-            if let Err(e) = tx.send(message.to_string()) {
+            if let Err(e) = tx.send(message) {
                 error!("Failed to send message to MQTT thread: {e}");
             }
         },
