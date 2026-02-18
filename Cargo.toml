@@ -11,6 +11,7 @@ chrono = "0.4"
 env_logger = "0.11"
 log = "0.4"
 commitment-issues = { git = "https://github.com/dysonltd/commitment-issues", branch = "main" }
+ctrlc = "3.4"
 
 # Optional Dependencies for different hardware platforms
 ftdi = { version = "0.1", optional = true }

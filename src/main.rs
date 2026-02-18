@@ -1,16 +1,26 @@
 use commitment_issues::include_metadata;
 #[cfg(feature = "dev")]
 use embedded_hal::digital::InputPin;
+#[cfg(feature = "prod")]
+use std::sync::{Arc, Mutex};
 
 include_metadata!();
 mod config;
 mod pins;
 mod transmit;
-use log::{debug, error, info, warn};
+use log::{error, info};
+#[cfg(feature = "dev")]
+use log::{debug, warn};
 
 // Timing Constants
+#[cfg(feature = "dev")]
 const POLL_INTERVAL: u64 = 5; // seconds
+#[cfg(feature = "dev")]
 const PRINT_INTERVAL: u64 = 60 * 30; // seconds
+#[cfg(feature = "prod")]
+const DEBOUNCE_DURATION_MS: u64 = 50; // milliseconds
+
+#[cfg(feature = "dev")]
 fn main() {
     env_logger::init();
     let last_print_time = std::time::Instant::now();
@@ -42,10 +52,9 @@ fn main() {
     // Pin State Variables
     let mut has_pin_changed = false;
     let mut last_pin_state = false;
-    info!("Starting loop");
+    info!("Starting polling loop (dev mode)");
     loop {
         {
-            #[cfg(feature = "dev")]
             let current_pin_state = match pin.is_high() {
                 Ok(current_pin_state) => current_pin_state,
                 Err(e) => {
@@ -54,8 +63,6 @@ fn main() {
                     break;
                 }
             };
-            #[cfg(feature = "prod")]
-            let current_pin_state = pin.is_high();
 
             if current_pin_state != last_pin_state {
                 has_pin_changed = true;
@@ -81,4 +88,102 @@ fn main() {
             std::thread::sleep(std::time::Duration::from_secs(POLL_INTERVAL));
         }
     }
+}
+
+#[cfg(feature = "prod")]
+fn main() {
+    use std::sync::atomic::{AtomicBool, Ordering};
+    
+    env_logger::init();
+    info!("Presence Detector Version");
+    info!("Tag: {}", metadata::tag_describe());
+    info!("Author: {}", metadata::last_author());
+    info!("Initializing...");
+    let config = config::get_config();
+    info!("Config Accepted: {config:?}");
+    
+    let mut pin = match pins::get_pin(config.pin) {
+        Ok(pin) => pin,
+        Err(e) => {
+            error!("Error: {e}");
+            return;
+        }
+    };
+    
+    let mqtt = match transmit::MqttClient::new(
+        config.mqtt.host.clone(),
+        config.mqtt.port,
+        config.mqtt.client_id.clone(),
+        config.mqtt.topic.clone(),
+    ) {
+        Ok(mqtt) => mqtt,
+        Err(e) => {
+            error!("Error: {e}");
+            return;
+        }
+    };
+    
+    // Wrap MQTT client in Arc<Mutex<>> for sharing across threads
+    let mqtt = Arc::new(Mutex::new(mqtt));
+    let sensor_id = config.sensor_id.clone();
+    let running = Arc::new(AtomicBool::new(true));
+    let running_clone = running.clone();
+    
+    // Setup signal handler for graceful shutdown
+    ctrlc::set_handler(move || {
+        info!("Received shutdown signal");
+        running_clone.store(false, Ordering::SeqCst);
+    })
+    .expect("Error setting Ctrl-C handler");
+    
+    info!("Setting up async interrupt handler");
+    
+    // Get initial pin state
+    let initial_state = pin.is_high();
+    info!("Initial pin state: {}", initial_state);
+    
+    // Setup async interrupt on both rising and falling edges
+    let result = pin.set_async_interrupt(
+        rppal::gpio::Trigger::Both,
+        Some(std::time::Duration::from_millis(DEBOUNCE_DURATION_MS)),
+        move |event| {
+            // The trigger field tells us what edge triggered this interrupt
+            let presence = match event.trigger {
+                rppal::gpio::Trigger::RisingEdge => true,
+                rppal::gpio::Trigger::FallingEdge => false,
+                _ => {
+                    error!("Unexpected trigger type");
+                    return;
+                }
+            };
+            
+            info!("Presence Change Detected: {}", presence);
+            let message = serde_json::json!({
+                "presence": presence,
+                "timestamp": chrono::Utc::now().to_string(),
+                "sensor_id": sensor_id,
+            });
+            info!("Sending message: {message}");
+            
+            let mqtt_guard = mqtt.lock().unwrap();
+            if let Err(e) = mqtt_guard.send_message(message.to_string()) {
+                error!("Failed to send message: {e}");
+            }
+        },
+    );
+    
+    if let Err(e) = result {
+        error!("Failed to set async interrupt: {e}");
+        return;
+    }
+    
+    info!("Async interrupt handler configured successfully");
+    info!("Waiting for PIR sensor events (press Ctrl-C to exit)...");
+    
+    // Keep the main thread alive
+    while running.load(Ordering::SeqCst) {
+        std::thread::sleep(std::time::Duration::from_secs(1));
+    }
+    
+    info!("Shutting down gracefully...");
 }
