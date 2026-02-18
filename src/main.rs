@@ -2,7 +2,7 @@ use commitment_issues::include_metadata;
 #[cfg(feature = "dev")]
 use embedded_hal::digital::InputPin;
 #[cfg(feature = "prod")]
-use std::sync::{Arc, Mutex};
+use std::sync::Arc;
 
 include_metadata!();
 mod config;
@@ -93,6 +93,7 @@ fn main() {
 #[cfg(feature = "prod")]
 fn main() {
     use std::sync::atomic::{AtomicBool, Ordering};
+    use std::sync::mpsc;
     
     env_logger::init();
     info!("Presence Detector Version");
@@ -123,8 +124,6 @@ fn main() {
         }
     };
     
-    // Wrap MQTT client in Arc<Mutex<>> for sharing across threads
-    let mqtt = Arc::new(Mutex::new(mqtt));
     let sensor_id = config.sensor_id.clone();
     let running = Arc::new(AtomicBool::new(true));
     let running_clone = running.clone();
@@ -135,6 +134,29 @@ fn main() {
         running_clone.store(false, Ordering::SeqCst);
     })
     .expect("Error setting Ctrl-C handler");
+    
+    // Create channel for sending messages from interrupt handler to MQTT thread
+    let (tx, rx) = mpsc::channel();
+    
+    // Spawn a thread to handle MQTT sending
+    let running_mqtt = running.clone();
+    std::thread::spawn(move || {
+        while running_mqtt.load(Ordering::SeqCst) {
+            match rx.recv_timeout(std::time::Duration::from_secs(1)) {
+                Ok(message) => {
+                    info!("Sending message: {message}");
+                    if let Err(e) = mqtt.send_message(message) {
+                        error!("Failed to send message: {e}");
+                    }
+                }
+                Err(mpsc::RecvTimeoutError::Timeout) => continue,
+                Err(mpsc::RecvTimeoutError::Disconnected) => {
+                    info!("Message channel disconnected, exiting MQTT thread");
+                    break;
+                }
+            }
+        }
+    });
     
     info!("Setting up async interrupt handler");
     
@@ -163,11 +185,10 @@ fn main() {
                 "timestamp": chrono::Utc::now().to_string(),
                 "sensor_id": sensor_id,
             });
-            info!("Sending message: {message}");
             
-            let mqtt_guard = mqtt.lock().unwrap();
-            if let Err(e) = mqtt_guard.send_message(message.to_string()) {
-                error!("Failed to send message: {e}");
+            // Send message to MQTT thread via channel
+            if let Err(e) = tx.send(message.to_string()) {
+                error!("Failed to send message to MQTT thread: {e}");
             }
         },
     );
