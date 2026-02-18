@@ -3,7 +3,8 @@ use std::error::Error;
 use log::info;
 use paho_mqtt as mqtt;
 pub struct MqttClient {
-    topic: String,
+    state_topic: String,
+    availability_topic: String,
     client: mqtt::Client,
 }
 
@@ -12,7 +13,10 @@ impl MqttClient {
         host: String,
         port: u16,
         client_id: String,
-        topic: String,
+        state_topic: String,
+        availability_topic: String,
+        discovery_topic: String,
+        device_name: String,
     ) -> Result<MqttClient, Box<dyn Error>> {
         info!("Initializing MQTT client...");
         let create_opts = mqtt::CreateOptionsBuilder::new()
@@ -23,24 +27,72 @@ impl MqttClient {
             Ok(client) => client,
             Err(e) => return Err(Box::new(e)),
         };
+        
+        // Set last will and testament for availability
+        let lwt = mqtt::Message::new(&availability_topic, "offline", mqtt::QOS_1);
         let conn_opts = mqtt::ConnectOptionsBuilder::new()
             .keep_alive_interval(std::time::Duration::from_secs(30))
             .clean_session(true)
+            .will_message(lwt)
             .finalize();
         match client.connect(conn_opts) {
             Ok(_) => (),
             Err(e) => return Err(Box::new(e)),
         };
+        
+        // Publish discovery configuration for Home Assistant
+        let discovery_config = serde_json::json!({
+            "name": device_name,
+            "device_class": "occupancy",
+            "state_topic": state_topic,
+            "availability_topic": availability_topic,
+            "payload_on": "ON",
+            "payload_off": "OFF",
+            "payload_available": "online",
+            "payload_not_available": "offline",
+            "unique_id": client_id,
+        });
+        let discovery_msg = mqtt::Message::new(
+            discovery_topic,
+            discovery_config.to_string(),
+            mqtt::QOS_1,
+        );
+        match client.publish(discovery_msg) {
+            Ok(_) => info!("Published Home Assistant discovery configuration"),
+            Err(e) => return Err(Box::new(e)),
+        };
+        
+        // Publish online availability
+        let availability_msg = mqtt::Message::new(&availability_topic, "online", mqtt::QOS_1);
+        match client.publish(availability_msg) {
+            Ok(_) => info!("Published availability: online"),
+            Err(e) => return Err(Box::new(e)),
+        };
+        
         info!("MQTT client initialized");
-        Ok(MqttClient { topic, client })
+        Ok(MqttClient {
+            state_topic,
+            availability_topic,
+            client,
+        })
     }
 
-    pub fn send_message(&self, message: String) -> Result<(), Box<dyn Error>> {
-        let msg = mqtt::Message::new(self.topic.clone(), message, mqtt::QOS_1);
+    pub fn send_state(&self, occupied: bool) -> Result<(), Box<dyn Error>> {
+        let payload = if occupied { "ON" } else { "OFF" };
+        let msg = mqtt::Message::new(&self.state_topic, payload, mqtt::QOS_1);
         match self.client.publish(msg) {
             Ok(_) => (),
             Err(e) => return Err(Box::new(e)),
         };
         Ok(())
+    }
+}
+
+impl Drop for MqttClient {
+    fn drop(&mut self) {
+        // Publish offline availability before disconnecting
+        let availability_msg = mqtt::Message::new(&self.availability_topic, "offline", mqtt::QOS_1);
+        let _ = self.client.publish(availability_msg);
+        let _ = self.client.disconnect(None);
     }
 }

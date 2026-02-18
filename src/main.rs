@@ -31,7 +31,10 @@ fn main() {
         config.mqtt.host,
         config.mqtt.port,
         config.mqtt.client_id,
-        config.mqtt.topic,
+        config.mqtt.state_topic,
+        config.mqtt.availability_topic,
+        config.mqtt.discovery_topic,
+        format!("{} Presence", config.room.replace('_', " ").replace('-', " ")),
     ) {
         Ok(mqtt) => mqtt,
         Err(e) => {
@@ -66,14 +69,9 @@ fn main() {
             }
             if has_pin_changed {
                 info!("Presence Change Detected");
-                let message = serde_json::json!({
-                    "presence": current_pin_state,
-                    "timestamp": chrono::Utc::now().to_string(),
-                    "sensor_id": config.sensor_id,
-                });
-                info!("Sending message: {message}");
-                if let Err(e) = mqtt.send_message(message.to_string()) {
-                    error!("Failed to send message: {e}");
+                info!("Sending state: {}", if current_pin_state { "ON" } else { "OFF" });
+                if let Err(e) = mqtt.send_state(current_pin_state) {
+                    error!("Failed to send state: {e}");
                     return;
                 }
                 has_pin_changed = false;

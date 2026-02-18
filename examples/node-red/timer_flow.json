@@ -1,21 +1,128 @@
 [
   {
-    "id": "3557633632a87454",
+    "id": "mqtt_in_presence",
+    "type": "mqtt in",
+    "z": "b100c9c25a08567d",
+    "name": "Master Bedroom Presence",
+    "topic": "homeassistant/binary_sensor/master_bedroom_presence_1/state",
+    "qos": "1",
+    "datatype": "utf8",
+    "broker": "mqtt_broker",
+    "nl": false,
+    "rap": true,
+    "rh": 0,
+    "inputs": 0,
+    "x": 200,
+    "y": 140,
+    "wires": [
+      [
+        "process_presence"
+      ]
+    ]
+  },
+  {
+    "id": "process_presence",
+    "type": "function",
+    "z": "b100c9c25a08567d",
+    "name": "Process Presence State",
+    "func": "// Convert Home Assistant ON/OFF to boolean\nconst isPresent = msg.payload === \"ON\";\n\n// Store presence state\nflow.set('presence', isPresent);\n\n// Add timestamp\nmsg.presence = isPresent;\nmsg.timestamp = new Date().toISOString();\n\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 470,
+    "y": 140,
+    "wires": [
+      [
+        "time_check",
+        "debug_presence"
+      ]
+    ]
+  },
+  {
+    "id": "debug_presence",
+    "type": "debug",
+    "z": "b100c9c25a08567d",
+    "name": "Debug Presence",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "true",
+    "targetType": "full",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 720,
+    "y": 200,
+    "wires": []
+  },
+  {
+    "id": "time_check",
+    "type": "function",
+    "z": "b100c9c25a08567d",
+    "name": "Check Time of Day",
+    "func": "// Only control lights between sunset and sunrise\nconst now = new Date();\nconst hour = now.getHours();\n\n// Simple check: between 6 PM and 7 AM\nconst isNightTime = hour >= 18 || hour < 7;\n\nif (isNightTime && msg.presence) {\n    msg.payload = \"on\";\n    return [msg, null];\n} else if (!msg.presence) {\n    msg.payload = \"off\";\n    return [msg, null];\n}\n\n// Don't control lights during the day\nreturn [null, msg];",
+    "outputs": 2,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 730,
+    "y": 140,
+    "wires": [
+      [
+        "control_light"
+      ],
+      []
+    ]
+  },
+  {
+    "id": "control_light",
     "type": "mattercommand",
     "z": "b100c9c25a08567d",
-    "name": "",
+    "name": "Control Overhead Light",
     "controller": "b8db8456c9574202",
     "device": "990383581080373317-1",
     "deviceName": "Overhead Light",
     "endpoint": "",
     "cluster": "6",
-    "command": "on",
+    "command": "toggle",
     "data": "{}",
     "dataType": "json",
-    "simpleMode": true,
-    "x": 1190,
+    "simpleMode": false,
+    "x": 1000,
     "y": 140,
-    "wires": [[]]
+    "wires": [
+      []
+    ]
+  },
+  {
+    "id": "mqtt_broker",
+    "type": "mqtt-broker",
+    "name": "Local MQTT Broker",
+    "broker": "localhost",
+    "port": "1883",
+    "clientid": "nodered_presence",
+    "autoConnect": true,
+    "usetls": false,
+    "protocolVersion": "4",
+    "keepalive": "60",
+    "cleansession": true,
+    "birthTopic": "",
+    "birthQos": "0",
+    "birthPayload": "",
+    "birthMsg": {},
+    "closeTopic": "",
+    "closeQos": "0",
+    "closePayload": "",
+    "closeMsg": {},
+    "willTopic": "",
+    "willQos": "0",
+    "willPayload": "",
+    "willMsg": {},
+    "userProps": "",
+    "sessionExpiry": ""
   },
   {
     "id": "b8db8456c9574202",
