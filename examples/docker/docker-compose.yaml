@@ -24,7 +24,7 @@ services:
     restart: unless-stopped
 
   node-red:
-    image: nodered/node-red:4.0.8
+    image: nodered/node-red:4.1.5
     container_name: node-red
     ports:
       - "1880:1880" # Map Node-RED's default port to the host
