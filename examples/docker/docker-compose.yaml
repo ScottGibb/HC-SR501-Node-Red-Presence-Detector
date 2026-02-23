@@ -1,6 +1,6 @@
 services:
   mqtt-broker:
-    image: eclipse-mosquitto:2.0.20
+    image: eclipse-mosquitto:2.0.22
     container_name: mqtt-broker
     ports:
       - "1883:1883" # MQTT port
