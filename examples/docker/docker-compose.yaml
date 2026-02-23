@@ -14,7 +14,7 @@ services:
       - IOT
 
   portainer:
-    image: portainer/portainer-ce:2.21.4
+    image: portainer/portainer-ce:2.33.7
     container_name: portainer
     ports:
       - "9000:9000"
