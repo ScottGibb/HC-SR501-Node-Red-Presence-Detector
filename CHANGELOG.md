@@ -2,7 +2,6 @@
 
 ## [1.4.6](https://github.com/ScottGibb/HC-SR501-Node-Red-Presence-Detector/compare/v1.4.5...v1.4.6) (2026-02-23)
 
-
 ### Bug Fixes
 
 * **deps:** bump chrono from 0.4.43 to 0.4.44 ([584fbd3](https://github.com/ScottGibb/HC-SR501-Node-Red-Presence-Detector/commit/584fbd32a0b6225624950e070445b8a1911947b7))
