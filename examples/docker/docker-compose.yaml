@@ -1,43 +1,46 @@
+---
+name: presence-detector-example
+# Example docker-compose file for HC-SR501 Presence Detector using Node-Red and MQTT with Node-Red
 services:
   mqtt-broker:
     image: eclipse-mosquitto:2.0.22
     container_name: mqtt-broker
-    ports:
-      - "1883:1883" # MQTT port
-      - "9002:9001" # MQTT over WebSockets (optional, for MQTT over WebSocket support)
     volumes:
       - ./config:/mosquitto/config
       - mosquitto_data:/mosquitto/data
       - mosquitto_log:/mosquitto/log
-    restart: unless-stopped
+    ports:
+      - '1883:1883' # MQTT port
+      - '9002:9001' # MQTT over WebSockets (optional, for MQTT over WebSocket support)
     networks:
       - IOT
-
-  portainer:
-    image: portainer/portainer-ce:2.39.0
-    container_name: portainer
-    ports:
-      - "9000:9000"
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - portainer_data:/data
     restart: unless-stopped
 
   node-red:
     image: nodered/node-red:4.1.6
     container_name: node-red
-    ports:
-      - "1880:1880" # Map Node-RED's default port to the host
-      - "3456:3456" # Alexa Config Port
-    privileged: true
+    depends_on:
+      - mqtt-broker
     # network_mode: host
     volumes:
       - node_red_data:/data
-    restart: unless-stopped
+    ports:
+      - '1880:1880' # Map Node-RED's default port to the host
+      - '3456:3456' # Alexa Config Port
     networks:
       - IOT
-    depends_on:
-      - mqtt-broker
+    restart: unless-stopped
+    privileged: true
+
+  portainer:
+    image: portainer/portainer-ce:2.39.0
+    container_name: portainer
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+    ports:
+      - '9000:9000'
+    restart: unless-stopped
 
   presence-detector:
     build:
@@ -45,8 +48,8 @@ services:
       dockerfile: Dockerfile
       target: dev # Use dev for when building on Main Desktop Machine
     container_name: presence-detector
-    restart: unless-stopped
-    privileged: true
+    depends_on:
+      - mqtt-broker
     environment:
       - MQTT_HOST=mqtt-broker
       - MQTT_PORT=1883
@@ -57,15 +60,14 @@ services:
       - RUST_LOG=info
     networks:
       - IOT
-    depends_on:
-      - mqtt-broker
+    restart: unless-stopped
+    privileged: true
+networks:
+  IOT:
+    driver: bridge
 
 volumes:
   portainer_data:
   mosquitto_data:
   mosquitto_log:
   node_red_data:
-
-networks:
-  IOT:
-    driver: bridge
