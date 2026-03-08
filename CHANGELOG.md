@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.5.0](https://github.com/ScottGibb/HC-SR501-Node-Red-Presence-Detector/compare/v1.4.5...v1.5.0) (2026-03-08)
+
+
+### Features
+
+* add docker compose linter ([042b0e8](https://github.com/ScottGibb/HC-SR501-Node-Red-Presence-Detector/commit/042b0e8d62aa90411f23f0b9f69ad20fcb33c901))
+
+
+### Bug Fixes
+
+* **deps:** bump chrono from 0.4.43 to 0.4.44 ([584fbd3](https://github.com/ScottGibb/HC-SR501-Node-Red-Presence-Detector/commit/584fbd32a0b6225624950e070445b8a1911947b7))
+
 ## [1.4.5](https://github.com/ScottGibb/HC-SR501-Node-Red-Presence-Detector/compare/v1.4.4...v1.4.5) (2026-02-18)
 
 ### Bug Fixes
