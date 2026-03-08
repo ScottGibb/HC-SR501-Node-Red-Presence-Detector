@@ -23,6 +23,7 @@ ENABLE_LINTERS:
   - JSON_JSONLINT
   - JSON_PRETTIER
   - DOCKERFILE_HADOLINT
+  - DOCKERFILE_DCLINT
 
 # DISABLE:
 
@@ -52,3 +53,6 @@ RUST_CLIPPY_ARGUMENTS:
   - "--"
   - "-D"
   - "warnings"
+
+PLUGINS:
+  - "https://raw.githubusercontent.com/wesley-dean/mega-linter-plugin-dclint/refs/heads/main/mega-linter-plugin-dclint/dclint.megalinter-descriptor.yml"
