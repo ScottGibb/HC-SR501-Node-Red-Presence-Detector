@@ -2,11 +2,9 @@
 
 ## [1.5.0](https://github.com/ScottGibb/HC-SR501-Node-Red-Presence-Detector/compare/v1.4.5...v1.5.0) (2026-03-08)
 
-
 ### Features
 
 * add docker compose linter ([042b0e8](https://github.com/ScottGibb/HC-SR501-Node-Red-Presence-Detector/commit/042b0e8d62aa90411f23f0b9f69ad20fcb33c901))
-
 
 ### Bug Fixes
 
