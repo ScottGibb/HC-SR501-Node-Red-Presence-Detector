@@ -10,8 +10,8 @@ services:
       - mosquitto_data:/mosquitto/data
       - mosquitto_log:/mosquitto/log
     ports:
-      - '1883:1883' # MQTT port
-      - '9002:9001' # MQTT over WebSockets (optional, for MQTT over WebSocket support)
+      - '0.0.0.0:1883:1883' # MQTT port
+      - '0.0.0.0:9002:9001' # MQTT over WebSockets (optional, for MQTT over WebSocket support)
     networks:
       - IOT
     restart: unless-stopped
@@ -25,8 +25,8 @@ services:
     volumes:
       - node_red_data:/data
     ports:
-      - '1880:1880' # Map Node-RED's default port to the host
-      - '3456:3456' # Alexa Config Port
+      - '0.0.0.0:1880:1880' # Map Node-RED's default port to the host
+      - '0.0.0.0:3456:3456' # Alexa Config Port
     networks:
       - IOT
     restart: unless-stopped
@@ -39,7 +39,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - portainer_data:/data
     ports:
-      - '9000:9000'
+      - '0.0.0.0:9000:9000'
     restart: unless-stopped
 
   presence-detector:
