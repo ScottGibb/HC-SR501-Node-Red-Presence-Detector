@@ -33,7 +33,7 @@ services:
     privileged: true
 
   portainer:
-    image: portainer/portainer-ce:2.39.0
+    image: portainer/portainer-ce:2.39.1
     container_name: portainer
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
