@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.5.1](https://github.com/ScottGibb/HC-SR501-Node-Red-Presence-Detector/compare/v1.5.0...v1.5.1) (2026-06-02)
+
+
+### Bug Fixes
+
+* **deps:** bump env_logger from 0.11.9 to 0.11.10 ([d3c2967](https://github.com/ScottGibb/HC-SR501-Node-Red-Presence-Detector/commit/d3c2967c413adba98cd52d69e33b45832480a46a))
+* **deps:** bump log from 0.4.29 to 0.4.30 ([648ef15](https://github.com/ScottGibb/HC-SR501-Node-Red-Presence-Detector/commit/648ef159b32597e1c97bb9cd16568ea11e62aabe))
+* **deps:** bump log from 0.4.30 to 0.4.31 ([3756cac](https://github.com/ScottGibb/HC-SR501-Node-Red-Presence-Detector/commit/3756cacb14d0b25a9d40906822958dc83a983a6e))
+* **deps:** bump paho-mqtt from 0.13.3 to 0.14.0 ([717b91c](https://github.com/ScottGibb/HC-SR501-Node-Red-Presence-Detector/commit/717b91c236b6d045c02914a4cab458e50280e1a0))
+* **deps:** bump serde_json from 1.0.149 to 1.0.150 ([75b94af](https://github.com/ScottGibb/HC-SR501-Node-Red-Presence-Detector/commit/75b94afe930166b013328465527bbeecb9c396b6))
+
 ## [1.5.0](https://github.com/ScottGibb/HC-SR501-Node-Red-Presence-Detector/compare/v1.4.5...v1.5.0) (2026-03-08)
 
 ### Features
