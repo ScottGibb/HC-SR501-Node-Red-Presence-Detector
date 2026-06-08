@@ -6,8 +6,8 @@ WORKDIR /app
 RUN apt-get update && apt-get install --no-install-recommends -y \
     build-essential=12.9 \
     cmake=3.25.1-1 \
-    openssl=3.0.18-1~deb12u2\
-    libssl-dev=3.0.18-1~deb12u2\
+    openssl \
+    libssl-dev \
     libftdi1=0.20-4+b1  \
     libftdi1-dev=1.5-6+b2 \
     git=1:2.39.5-0+deb12u3 && \
@@ -21,8 +21,8 @@ RUN cargo build --release --no-default-features --features=prod && cargo build -
 FROM debian:bookworm-slim AS prod
 # Required for static linking
 RUN apt-get update && apt-get install --no-install-recommends -y \
-   openssl=3.0.18-1~deb12u2\
-    libssl-dev=3.0.18-1~deb12u2 &&\
+    openssl \
+    libssl-dev &&\
     rm -rf /var/lib/apt/lists/*
 # Copy the build artifact from the builder stage
 COPY --from=builder /app/target/release/presence-detector /usr/local/bin/presence-detector
@@ -33,8 +33,8 @@ CMD ["presence-detector"]
 FROM debian:bookworm-slim AS dev
 # Required for static linking
 RUN apt-get update && apt-get install --no-install-recommends -y \
-    openssl=3.0.18-1~deb12u2 \
-    libssl-dev=3.0.18-1~deb12u2 \
+    openssl \
+    libssl-dev \
     libftdi1=0.20-4+b1  \
     libftdi1-dev=1.5-6+b2  &&\
     rm -rf /var/lib/apt/lists/*
