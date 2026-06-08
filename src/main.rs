@@ -76,6 +76,13 @@ fn main() {
                     error!("Failed to send message: {e}");
                     return;
                 }
+
+                if let Err(e) =
+                    mqtt.send_home_assistant_presence(&config.home_assistant, current_pin_state)
+                {
+                    error!("Failed to send Home Assistant MQTT message: {e}");
+                    return;
+                }
                 has_pin_changed = false;
             }
             std::thread::sleep(std::time::Duration::from_secs(POLL_INTERVAL));
