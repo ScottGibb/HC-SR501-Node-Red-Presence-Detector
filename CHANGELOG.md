@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.0](https://github.com/ScottGibb/HC-SR501-Node-Red-Presence-Detector/compare/v1.5.1...v1.6.0) (2026-06-08)
+
+
+### Features
+
+* add Home assistant discovery ([abc6805](https://github.com/ScottGibb/HC-SR501-Node-Red-Presence-Detector/commit/abc680564756199910d087dd37eb1ec752aabd90))
+
 ## [1.5.1](https://github.com/ScottGibb/HC-SR501-Node-Red-Presence-Detector/compare/v1.5.0...v1.5.1) (2026-06-02)
 
 ### Bug Fixes
