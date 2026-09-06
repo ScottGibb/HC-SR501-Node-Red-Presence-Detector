@@ -1,5 +1,22 @@
 # Changelog
 
+## [1.7.0](https://github.com/ScottGibb/HC-SR501-Node-Red-Presence-Detector/compare/v1.6.0...v1.7.0) (2026-09-06)
+
+
+### Features
+
+* add Docker Builder ([330fd7f](https://github.com/ScottGibb/HC-SR501-Node-Red-Presence-Detector/commit/330fd7f4977b63e42bbf7b4a19e662b1ee53c63c))
+
+
+### Bug Fixes
+
+* **deps:** bump chrono from 0.4.44 to 0.4.45 ([681d74a](https://github.com/ScottGibb/HC-SR501-Node-Red-Presence-Detector/commit/681d74ac759fae6cee3247db2d01558489f1387b))
+* **deps:** bump env_logger from 0.11.10 to 0.11.11 ([a25a809](https://github.com/ScottGibb/HC-SR501-Node-Red-Presence-Detector/commit/a25a809024327839baba2d8b9a4c046bced3acf5))
+* **deps:** bump log from 0.4.31 to 0.4.32 ([80bd89c](https://github.com/ScottGibb/HC-SR501-Node-Red-Presence-Detector/commit/80bd89c4a8a330bea1844a540393219417d548fb))
+* **deps:** bump log from 0.4.32 to 0.4.33 ([215f7a1](https://github.com/ScottGibb/HC-SR501-Node-Red-Presence-Detector/commit/215f7a1e13df7053cc05854998cc0cf5c93f6c7a))
+* **deps:** bump log from 0.4.33 to 0.4.34 ([918e772](https://github.com/ScottGibb/HC-SR501-Node-Red-Presence-Detector/commit/918e772e2353bf89ceb1bba007df549aedd0e69c))
+* **deps:** bump serde_json from 1.0.150 to 1.0.151 ([f1b31f9](https://github.com/ScottGibb/HC-SR501-Node-Red-Presence-Detector/commit/f1b31f9c8add6cde55948d50d82f1138b93b48a1))
+
 ## [1.6.0](https://github.com/ScottGibb/HC-SR501-Node-Red-Presence-Detector/compare/v1.5.1...v1.6.0) (2026-06-08)
 
 
