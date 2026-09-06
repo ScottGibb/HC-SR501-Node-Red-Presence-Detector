@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.7.1](https://github.com/ScottGibb/HC-SR501-Node-Red-Presence-Detector/compare/v1.7.0...v1.7.1) (2026-09-06)
+
+
+### Bug Fixes
+
+* docker build output ([613f21e](https://github.com/ScottGibb/HC-SR501-Node-Red-Presence-Detector/commit/613f21e3334047e3d051985925f8363ae609fb06))
+* dockerfile should be prod not dev ([a9273ef](https://github.com/ScottGibb/HC-SR501-Node-Red-Presence-Detector/commit/a9273efc66f37731e2ab18d7a0d31b5394e37b5f))
+* megalinter ([3ec5e30](https://github.com/ScottGibb/HC-SR501-Node-Red-Presence-Detector/commit/3ec5e30806f3c152345c371163dc5592a05c96e5))
+
 ## [1.7.0](https://github.com/ScottGibb/HC-SR501-Node-Red-Presence-Detector/compare/v1.6.0...v1.7.0) (2026-09-06)
 
 
