@@ -14,7 +14,7 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
     rm -rf /var/lib/apt/lists/*
 COPY . .
 # Build the application in release mode
-RUN cargo build --release --no-default-features --features=prod && cargo build --no-default-features --features dev
+RUN cargo build --release --no-default-features --features=prod && cargo build --no-default-features --features prod
 
 
 # Stage 2: Create the runtime image
