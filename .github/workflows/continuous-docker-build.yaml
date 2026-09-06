@@ -29,7 +29,7 @@ jobs:
         with:
           context: .
           platforms: linux/arm64
-          outputs: type=tar,dest=HC-SR501-Presence-Detector.tar
+          outputs: type=docker,dest=HC-SR501-Presence-Detector.tar
           push: false
 
       # 2. Upload the compiled tarball as a workflow artifact
