@@ -3,7 +3,7 @@ name: presence-detector-example
 # Example docker-compose file for HC-SR501 Presence Detector using Node-Red and MQTT with Node-Red
 services:
   mqtt-broker:
-    image: eclipse-mosquitto:2.0.22
+    image: eclipse-mosquitto:2.0.23
     container_name: mqtt-broker
     volumes:
       - ./config:/mosquitto/config
